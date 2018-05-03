@@ -19,8 +19,8 @@ class App extends Component {
           <Navbar.Collapse>
             <Nav pullLeft>
               <NavDropdown eventKey={3} title="Create Survey" id="basic-nav-dropdown">
-                <LinkContainer to='/template1'>
-                  <MenuItem eventKey={3.1}>Template 1</MenuItem>
+                <LinkContainer to='/alligator'>
+                  <MenuItem eventKey={3.1}>Alligator</MenuItem>
                 </LinkContainer>
               </NavDropdown>
             </Nav>
