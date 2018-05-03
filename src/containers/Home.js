@@ -8,8 +8,8 @@ export default class Home extends Component {
     return (
       <div className="Home">
         <div className="lander">
-          <h1>Create Your Own Survey.</h1>
-          <p>Choose your cup of tea.</p>
+          <h1>Create Your Own Jar.</h1>
+          <p>Choose your style.</p>
         </div>
         <Carousel className="Templates">
           <Carousel.Item>

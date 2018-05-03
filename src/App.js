@@ -18,13 +18,18 @@ class App extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullLeft>
-              <NavDropdown eventKey={3} title="Create Survey" id="basic-nav-dropdown">
+              <NavDropdown eventKey={3} title="Create Jar" id="basic-nav-dropdown">
                 <LinkContainer to='/alligator'>
                   <MenuItem eventKey={3.1}>Alligator</MenuItem>
                 </LinkContainer>
               </NavDropdown>
+              <NavItem>My Jars</NavItem>
+              <NavItem>Fill a Jar</NavItem>
             </Nav>
             <Nav pullRight>
+              <LinkContainer to="/aboutus">
+                <NavItem>About Us</NavItem>
+              </LinkContainer>
               <LinkContainer to="/signup">
                 <NavItem>Signup</NavItem>
               </LinkContainer>
