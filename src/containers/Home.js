@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
-import { Carousel } from "react-bootstrap";
+import { Carousel, Thumbnail, Grid, Row, Col, Button } from "react-bootstrap";
 import carousel from './carousel.png'
 
 export default class Home extends Component {
@@ -11,7 +11,7 @@ export default class Home extends Component {
   }
 
   isMobile () {
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    if( /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
       return true;
     }
   }
@@ -24,7 +24,23 @@ export default class Home extends Component {
             <h1>Create Your Own Jar.</h1>
             <p>Choose your style.</p>
           </div>
-          <p>This is the mobile version</p>
+          <Grid className="TemplateList">
+            <Row>
+              <Thumbnail src={carousel} alt="242x200">
+                <Button block> Create Alligator Template </Button>
+              </Thumbnail>
+            </Row>
+            <Row>
+              <Thumbnail src={carousel} alt="242x200">
+                <Button block> Create Baboon Template </Button>
+              </Thumbnail>
+            </Row>
+            <Row>
+              <Thumbnail src={carousel} alt="242x200">
+                <Button block> Create Capybara Template </Button>
+              </Thumbnail>
+            </Row>
+          </Grid>
         </div>
       );
     } else {
