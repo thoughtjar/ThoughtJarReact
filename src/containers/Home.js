@@ -26,17 +26,17 @@ export default class Home extends Component {
           </div>
           <Grid className="TemplateList">
             <Row>
-              <Thumbnail src={carousel} alt="242x200">
+              <Thumbnail src={carousel} alt="900x500">
                 <Button block> Create Alligator Template </Button>
               </Thumbnail>
             </Row>
             <Row>
-              <Thumbnail src={carousel} alt="242x200">
+              <Thumbnail src={carousel} alt="900x500">
                 <Button block> Create Baboon Template </Button>
               </Thumbnail>
             </Row>
             <Row>
-              <Thumbnail src={carousel} alt="242x200">
+              <Thumbnail src={carousel} alt="900x500">
                 <Button block> Create Capybara Template </Button>
               </Thumbnail>
             </Row>
