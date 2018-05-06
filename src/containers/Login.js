@@ -10,6 +10,12 @@ export default class Login extends Component {
       email: "",
       password: ""
     };
+
+    this.signup = this.signup.bind(this);
+  }
+
+  signup() {
+    this.props.history.push('/signup');
   }
 
   validateForm() {
@@ -54,6 +60,13 @@ export default class Login extends Component {
             type="submit"
           >
             Login
+          </Button>
+          <Button
+            block
+            bsSize="large"
+            onClick={this.signup}
+          >
+            Create Account
           </Button>
         </form>
       </div>
