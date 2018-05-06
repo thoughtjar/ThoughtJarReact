@@ -19,8 +19,14 @@ class App extends Component {
           <Navbar.Collapse>
             <Nav pullLeft>
               <NavDropdown eventKey={3} title="Create Jar" id="basic-nav-dropdown">
-                <LinkContainer to='/alligator'>
+                <LinkContainer to='/template/alligator'>
                   <MenuItem eventKey={3.1}>Alligator</MenuItem>
+                </LinkContainer>
+                <LinkContainer to="/template/baboon">
+                  <MenuItem eventKey={3.2}>Baboon</MenuItem>
+                </LinkContainer>
+                <LinkContainer to="/template/capybara">
+                  <MenuItem eventKey={3.2}>Capybara</MenuItem>
                 </LinkContainer>
               </NavDropdown>
               <NavItem>My Jars</NavItem>

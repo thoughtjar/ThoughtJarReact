@@ -12,7 +12,7 @@ export default () =>
     <Route path="/" exact component={Home} />
     <Route path="/login" exact component={Login} />
     <Route path="/signup" exact component={Signup} />
-    <Route path="/alligator" exact component={Alligator} />
+    <Route path="/template/alligator" exact component={Alligator} />
     <Route path="/aboutus" exact component={AboutUs} />
     <Route component={NotFound} />
   </Switch>;
