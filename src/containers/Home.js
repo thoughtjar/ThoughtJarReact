@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
-import { Carousel, Thumbnail, Grid, Row, Col, Button } from "react-bootstrap";
+import { Carousel, Thumbnail, Grid, Row, Button } from "react-bootstrap";
 import carousel from './carousel.png'
 
 export default class Home extends Component {
