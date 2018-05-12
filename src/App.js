@@ -32,8 +32,12 @@ class App extends Component {
                   <MenuItem eventKey={3.4}>Dynamik</MenuItem>
                 </LinkContainer>
               </NavDropdown>
-              <NavItem>My Jars</NavItem>
-              <NavItem>Fill a Jar</NavItem>
+              <LinkContainer to="/myjars">
+                <NavItem>My Jars</NavItem>
+              </LinkContainer>
+              <LinkContainer to="/filljars">
+                <NavItem>Fill a Jar</NavItem>
+              </LinkContainer>
             </Nav>
             <Nav pullRight>
               <LinkContainer to="/aboutus">
