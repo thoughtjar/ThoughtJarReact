@@ -6,3 +6,9 @@
 .QuestionInput {
   width: 40%;
 }
+
+.add-question {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}

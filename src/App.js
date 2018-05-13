@@ -28,6 +28,7 @@ class App extends Component {
                 <LinkContainer to="/template/capybara">
                   <MenuItem eventKey={3.3}>Capybara</MenuItem>
                 </LinkContainer>
+                <MenuItem divider />
                 <LinkContainer to="/template/dynamik">
                   <MenuItem eventKey={3.4}>Dynamik</MenuItem>
                 </LinkContainer>
