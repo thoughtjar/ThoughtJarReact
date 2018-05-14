@@ -9,11 +9,11 @@ class ShortAnswer extends Component {
         <h4>Short Answer Question</h4>
         <div className="ShortQuestionInput">
           <Row>
-            <Col xs={12} md={11}>
+            <Col xs={12} md={10}>
               <FormControl type="text" placeholder="Type in the question here." />
             </Col>
-            <Col xs={6} md={1}>
-              <Button>Delete</Button>
+            <Col xs={6} md={2}>
+              <Button onClick={this.props.delete}>Delete</Button>
             </Col>
           </Row>
         </div>
@@ -28,13 +28,29 @@ export default class Dynamik extends Component {
     this.state = {
       surveyquestions: []
     };
+    this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
+    this.deleteQuestion = this.deleteQuestion.bind(this);
+  }
+
+  deleteQuestion(id) {
+      var deleteIndex;
+      for (var i=0; i<this.state.surveyquestions.length; i++){
+        if (this.state.surveyquestions[i].props.id === id){
+          deleteIndex = i;
+          break;
+        }
+      }
+      const updatedSurveyQuestions = [...this.state.surveyquestions];
+      updatedSurveyQuestions.splice(deleteIndex, 1);
+      this.setState({surveyquestions: updatedSurveyQuestions});
   }
 
   createShortAnswer() {
-    const newSurveyQuestions = this.state.surveyquestions.concat(<ShortAnswer key={this.state.surveyquestions.length + 1} />);
+    const newSurveyQuestions = this.state.surveyquestions.concat(<ShortAnswer delete={() => this.deleteQuestion(this.state.surveyquestions.length + 1)} id={this.state.surveyquestions.length + 1} key={this.keycount} />);
     this.setState({surveyquestions: newSurveyQuestions});
+    this.keycount += 1;
   }
 
   loadSurveyQuestions() {
