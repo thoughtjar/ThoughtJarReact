@@ -10,7 +10,27 @@ class ShortAnswer extends Component {
         <div className="ShortQuestionInput">
           <Row>
             <Col xs={12} md={10}>
-              <FormControl type="text" placeholder="Type in the question here." />
+              <FormControl type="text" placeholder="Type in short-answer question." />
+            </Col>
+            <Col xs={6} md={2}>
+              <Button onClick={this.props.delete}>Delete</Button>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    );
+  }
+}
+
+class LongAnswer extends Component {
+  render() {
+    return(
+      <div className="LongAnswer">
+        <h4>Long Answer Question</h4>
+        <div className="LongQuestionInput">
+          <Row>
+            <Col xs={12} md={10}>
+              <FormControl type="text" placeholder="Type in long-answer question." />
             </Col>
             <Col xs={6} md={2}>
               <Button onClick={this.props.delete}>Delete</Button>
@@ -63,6 +83,7 @@ export default class Dynamik extends Component {
         <div className="DynamikHeader">
           <h2>Welcome To Dynamik.</h2>
         </div>
+        <LongAnswer />
         {this.loadSurveyQuestions()}
         <ButtonToolbar className="add-question">
           <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>

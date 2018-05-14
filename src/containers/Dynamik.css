@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-.ShortQuestionInput {
+.ShortQuestionInput, .LongQuestionInput {
   width: 50%;
 }
 
