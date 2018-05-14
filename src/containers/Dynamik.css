@@ -3,10 +3,6 @@
   text-align: center;
 }
 
-.ShortQuestionInput, .LongQuestionInput {
-  width: 50%;
-}
-
 .add-question {
   position: absolute;
   bottom: 20px;

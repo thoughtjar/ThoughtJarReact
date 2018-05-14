@@ -1,46 +1,8 @@
 import React, { Component } from "react";
 import "./Dynamik.css";
-import { FormControl, DropdownButton, MenuItem, ButtonToolbar, Row, Col, Button } from "react-bootstrap";
-
-class ShortAnswer extends Component {
-  render() {
-    return(
-      <div className="ShortAnswer">
-        <h4>Short Answer Question</h4>
-        <div className="ShortQuestionInput">
-          <Row>
-            <Col xs={12} md={10}>
-              <FormControl type="text" placeholder="Type in short-answer question." />
-            </Col>
-            <Col xs={6} md={2}>
-              <Button onClick={this.props.delete}>Delete</Button>
-            </Col>
-          </Row>
-        </div>
-      </div>
-    );
-  }
-}
-
-class LongAnswer extends Component {
-  render() {
-    return(
-      <div className="LongAnswer">
-        <h4>Long Answer Question</h4>
-        <div className="LongQuestionInput">
-          <Row>
-            <Col xs={12} md={10}>
-              <FormControl type="text" placeholder="Type in long-answer question." />
-            </Col>
-            <Col xs={6} md={2}>
-              <Button onClick={this.props.delete}>Delete</Button>
-            </Col>
-          </Row>
-        </div>
-      </div>
-    );
-  }
-}
+import { ShortAnswer } from "./SurveyQuestionTemplates.js";
+import { LongAnswer } from "./SurveyQuestionTemplates.js";
+import { DropdownButton, MenuItem, ButtonToolbar } from "react-bootstrap";
 
 export default class Dynamik extends Component {
   constructor (props) {
