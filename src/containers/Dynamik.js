@@ -1,17 +1,22 @@
 import React, { Component } from "react";
 import "./Dynamik.css";
-import { FormControl, DropdownButton, MenuItem, ButtonToolbar } from "react-bootstrap";
+import { FormControl, DropdownButton, MenuItem, ButtonToolbar, Row, Col, Button } from "react-bootstrap";
 
 class ShortAnswer extends Component {
   render() {
     return(
       <div className="ShortAnswer">
         <h4>Short Answer Question</h4>
-        <FormControl
-          type="text"
-          placeholder="Type in the question here."
-          className= "QuestionInput"
-        />
+        <div className="ShortQuestionInput">
+          <Row>
+            <Col xs={12} md={11}>
+              <FormControl type="text" placeholder="Type in the question here." />
+            </Col>
+            <Col xs={6} md={1}>
+              <Button>Delete</Button>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
