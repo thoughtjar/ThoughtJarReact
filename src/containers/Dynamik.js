@@ -55,6 +55,7 @@ export default class Dynamik extends Component {
       <div className="Dynamik">
         <div className="DynamikHeader">
           <h2>Welcome To Dynamik.</h2>
+          <p>Click Add to start building.</p>
         </div>
         {this.loadSurveyQuestions()}
         <ButtonToolbar className="add-question">
