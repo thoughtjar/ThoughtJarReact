@@ -40,6 +40,11 @@ export default class Home extends Component {
                 <Button block> Create Capybara Template </Button>
               </Thumbnail>
             </Row>
+            <Row>
+              <Thumbnail src={carousel} alt="900x500">
+                <Button block> Create Custom Template </Button>
+              </Thumbnail>
+            </Row>
           </Grid>
         </div>
       );
@@ -70,6 +75,13 @@ export default class Home extends Component {
               <Carousel.Caption>
                 <h3>Capybara</h3>
                 <p>This is the capybara template.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img width={900} height={500} alt="900x500" src={carousel} />
+              <Carousel.Caption>
+                <h3>Dynamik</h3>
+                <p>This is the dynamik template.</p>
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
