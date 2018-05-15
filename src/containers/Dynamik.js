@@ -2,19 +2,21 @@ import React, { Component } from "react";
 import "./Dynamik.css";
 import { ShortAnswer } from "./SurveyQuestionTemplates.js";
 import { LongAnswer } from "./SurveyQuestionTemplates.js";
-import { DropdownButton, MenuItem, ButtonToolbar } from "react-bootstrap";
+import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup } from "react-bootstrap";
 
 export default class Dynamik extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      surveyquestions: []
+      surveyquestions: [],
+      questioncontent: {}
     };
     this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
     this.createLongAnswer = this.createLongAnswer.bind(this);
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.onUpdateQuestion = this.onUpdateQuestion.bind(this);
   }
 
   deleteQuestion(id) {
@@ -32,6 +34,18 @@ export default class Dynamik extends Component {
       }
   }
 
+  onUpdateQuestion(type, id, value) {
+    //make copy of existing dictionary
+    const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
+    //add new value to
+    updatedQuestionContent[id.toString()] = [type, value];
+    //setstate copy
+    this.setState({
+      surveyquestions: this.state.surveyquestions,
+      questioncontent: updatedQuestionContent
+    });
+  }
+
   createLongAnswer() {
     const deleteId = this.keycount;
     const newSurveyQuestions = this.state.surveyquestions.concat(<LongAnswer delete={() => this.deleteQuestion(deleteId)} id={deleteId} key={this.keycount} />);
@@ -41,7 +55,11 @@ export default class Dynamik extends Component {
 
   createShortAnswer() {
     const deleteId = this.keycount;
-    const newSurveyQuestions = this.state.surveyquestions.concat(<ShortAnswer delete={() => this.deleteQuestion(deleteId)} id={deleteId} key={this.keycount} />);
+    const newSurveyQuestions = this.state.surveyquestions.concat(<ShortAnswer
+      delete={() => this.deleteQuestion(deleteId)}
+      id={deleteId}
+      key={this.keycount}
+      onUpdate={this.onUpdateQuestion}/>);
     this.setState({surveyquestions: newSurveyQuestions});
     this.keycount += 1;
   }
@@ -59,12 +77,15 @@ export default class Dynamik extends Component {
         </div>
         {this.loadSurveyQuestions()}
         <ButtonToolbar className="add-question">
-          <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>
-            <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
-            <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
-            <MenuItem eventKey="3">Number Answer Question</MenuItem>
-            <MenuItem eventKey="4">Multiple Choice Question</MenuItem>
-          </DropdownButton>
+          <ButtonGroup>
+            <Button bsSize="large">Create Survey</Button>
+            <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>
+              <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
+              <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
+              <MenuItem eventKey="3">Number Answer Question</MenuItem>
+              <MenuItem eventKey="4">Multiple Choice Question</MenuItem>
+            </DropdownButton>
+          </ButtonGroup>
         </ButtonToolbar>
       </div>
     );
