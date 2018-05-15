@@ -31,7 +31,12 @@ export default class Dynamik extends Component {
       if(deleteIndex !== -1){
         const updatedSurveyQuestions = [...this.state.surveyquestions];
         updatedSurveyQuestions.splice(deleteIndex, 1);
-        this.setState({surveyquestions: updatedSurveyQuestions});
+        const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
+        delete updatedQuestionContent[id.toString()];
+        this.setState({
+          surveyquestions: updatedSurveyQuestions,
+          questioncontent: updatedQuestionContent
+        });
       }
   }
 
