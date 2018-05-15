@@ -8,10 +8,10 @@ export default () =>
     <h3>Meet the Thought Jar Team.</h3>
     <br />
     <br />
-    <p>Dave Ho - Software Developer</p>
-    <p>Someswar Amujala - Position</p>
-    <p>Tejas Rao - Position</p>
-    <p>Gordon Su - Position</p>
+    <p>Dave Ho - CTO & Founder</p>
+    <p>Someswar Amujala - Founder</p>
+    <p>Tejas Rao - COO</p>
+    <p>Gordon Su - Web-Designer</p>
     <br />
     <br />
     <h3>Contact Us.</h3>
