@@ -60,7 +60,11 @@ export default class Dynamik extends Component {
 
   createLongAnswer() {
     const deleteId = this.keycount;
-    const newSurveyQuestions = this.state.surveyquestions.concat(<LongAnswer delete={() => this.deleteQuestion(deleteId)} id={deleteId} key={this.keycount} />);
+    const newSurveyQuestions = this.state.surveyquestions.concat(<LongAnswer
+      delete={() => this.deleteQuestion(deleteId)}
+      id={deleteId}
+      key={this.keycount}
+      onUpdate={this.onUpdateQuestion}/>);
     this.setState({surveyquestions: newSurveyQuestions});
     this.keycount += 1;
   }

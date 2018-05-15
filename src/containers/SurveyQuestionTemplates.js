@@ -36,6 +36,19 @@ export class ShortAnswer extends Component {
 }
 
 export class LongAnswer extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    this.props.onUpdate("longanswer", this.props.id, event.target.value);
+    this.setState({value: event.target.value});
+  }
+
   render() {
     return(
       <div className="LongAnswer">
@@ -43,7 +56,7 @@ export class LongAnswer extends Component {
         <div className="LongQuestionInput">
           <Row>
             <Col xs={12} md={10}>
-              <FormControl type="text" placeholder="Type in long-answer question." />
+              <FormControl type="text" placeholder="Type in long-answer question." value={this.state.value} onChange={this.handleChange} />
             </Col>
             <Col xs={6} md={2}>
               <Button onClick={this.props.delete}>Delete</Button>
