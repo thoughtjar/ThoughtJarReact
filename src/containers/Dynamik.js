@@ -17,6 +17,7 @@ export default class Dynamik extends Component {
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
     this.onUpdateQuestion = this.onUpdateQuestion.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   deleteQuestion(id) {
@@ -32,6 +33,12 @@ export default class Dynamik extends Component {
         updatedSurveyQuestions.splice(deleteIndex, 1);
         this.setState({surveyquestions: updatedSurveyQuestions});
       }
+  }
+
+  submitForm() {
+    for(const [key, value] of Object.entries(this.state.questioncontent)) {
+      console.log(key, value);
+    }
   }
 
   onUpdateQuestion(type, id, value) {
@@ -78,7 +85,7 @@ export default class Dynamik extends Component {
         {this.loadSurveyQuestions()}
         <ButtonToolbar className="add-question">
           <ButtonGroup>
-            <Button bsSize="large">Create Survey</Button>
+            <Button bsSize="large" onClick={this.submitForm}>Create Survey</Button>
             <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>
               <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
               <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
