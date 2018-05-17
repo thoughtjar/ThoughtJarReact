@@ -8,6 +8,7 @@ import AboutUs from "./containers/AboutUs";
 import Alligator from "./containers/Alligator";
 import Baboon from "./containers/Baboon";
 import Dynamik from "./containers/Dynamik";
+import MyJars from "./containers/MyJars";
 
 export default () =>
   <Switch>
@@ -17,6 +18,7 @@ export default () =>
     <Route path="/template/alligator" exact component={Alligator} />
     <Route path="/template/baboon" exact component={Baboon} />
     <Route path="/template/dynamik" exact component={Dynamik} />
+    <Route path="/myjars" exact component={MyJars} />
     <Route path="/aboutus" exact component={AboutUs} />
     <Route component={NotFound} />
   </Switch>;
