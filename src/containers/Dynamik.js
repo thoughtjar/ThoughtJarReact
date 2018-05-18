@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import "./Dynamik.css";
 import { ShortAnswer } from "./SurveyQuestionTemplates.js";
 import { LongAnswer } from "./SurveyQuestionTemplates.js";
-import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup } from "react-bootstrap";
+import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl } from "react-bootstrap";
 
 export default class Dynamik extends Component {
   constructor (props) {
     super(props);
     this.state = {
       surveyquestions: [],
-      questioncontent: {}
+      questioncontent: {},
+      numberresponses: 1,
+      priceestimate: 0.0
     };
     this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
@@ -53,7 +55,6 @@ export default class Dynamik extends Component {
     updatedQuestionContent[id.toString()] = [type, value];
     //setstate copy
     this.setState({
-      surveyquestions: this.state.surveyquestions,
       questioncontent: updatedQuestionContent
     });
   }
@@ -65,8 +66,12 @@ export default class Dynamik extends Component {
       id={deleteId}
       key={this.keycount}
       onUpdate={this.onUpdateQuestion}/>);
-    this.setState({surveyquestions: newSurveyQuestions});
+    this.onUpdateQuestion("longanswer", deleteId, "NA");
     this.keycount += 1;
+    this.setState({
+      surveyquestions: newSurveyQuestions,
+      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.25)
+    });
   }
 
   createShortAnswer() {
@@ -76,8 +81,12 @@ export default class Dynamik extends Component {
       id={deleteId}
       key={this.keycount}
       onUpdate={this.onUpdateQuestion}/>);
-    this.setState({surveyquestions: newSurveyQuestions});
+    this.onUpdateQuestion("ShortAnswer", deleteId, "NA");
     this.keycount += 1;
+    this.setState({
+      surveyquestions: newSurveyQuestions,
+      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.10)
+    });
   }
 
   loadSurveyQuestions() {
@@ -92,6 +101,8 @@ export default class Dynamik extends Component {
           <p>Click Add to start building.</p>
         </div>
         {this.loadSurveyQuestions()}
+        <Well className="EstimatedPrice">Estimated Price: ${this.state.priceestimate}</Well>
+        <FormControl type="text" placeholder="Type in short-answer question." value={this.state.value} onChange={this.handleChange} />
         <ButtonToolbar className="add-question">
           <ButtonGroup>
             <Button bsSize="large" onClick={this.submitForm}>Create Survey</Button>

@@ -3,6 +3,12 @@
   text-align: center;
 }
 
+.EstimatedPrice{
+  position: absolute;
+  bottom: 45px;
+  right: 20px;
+}
+
 .add-question {
   position: absolute;
   bottom: 20px;
