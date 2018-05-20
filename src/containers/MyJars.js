@@ -31,7 +31,7 @@ export default class MyJars extends Component {
   }
 
   componentDidMount(){
-    this.getJars("http://35.160.134.174/weather/kansas+city");
+    this.getJars("https://api.github.com/users/xeliot");
   }
 
   render() {
@@ -41,7 +41,7 @@ export default class MyJars extends Component {
     return(
       <div className="MyJars">
         <h2>My Jar Dashboard</h2>
-        {this.state.data.temperature}
+        {this.state.data.name}
       </div>
     );
   }
