@@ -36,7 +36,7 @@ export default class MyJars extends Component {
 
   render() {
 
-    if(this.state.requestFailed) return <h4>Failed!</h4>
+    if(this.state.requestFailed) return <h2 className="network-failed">Could Not Connect to the Network.</h2>
     if(!this.state.data) return <h4>Loading ...</h4>
     return(
       <div className="MyJars">
