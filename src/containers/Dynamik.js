@@ -5,6 +5,7 @@ import { LongAnswer } from "./SurveyQuestionTemplates.js";
 import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl } from "react-bootstrap";
 
 export default class Dynamik extends Component {
+
   constructor (props) {
     super(props);
     this.state = {
@@ -22,43 +23,74 @@ export default class Dynamik extends Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
+  //handle survey question delete
   deleteQuestion(id) {
       var deleteIndex = -1;
+      //cycle through survey questions and get delete index
       for (var i=0; i<this.state.surveyquestions.length; i++){
         if (this.state.surveyquestions[i].props.id === (id)){
           deleteIndex = i;
           break;
         }
       }
+      // if delete index found delete from state variable
       if(deleteIndex !== -1){
+        // delete question from copy of render array
         const updatedSurveyQuestions = [...this.state.surveyquestions];
         updatedSurveyQuestions.splice(deleteIndex, 1);
+        // delete question from copy of content dictionary
         const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
         delete updatedQuestionContent[id.toString()];
-        this.setState({
-          surveyquestions: updatedSurveyQuestions,
-          questioncontent: updatedQuestionContent
-        });
+        // update price estimate depending on question type and other state variables
+        if(this.state.questioncontent[id.toString()][0] === "shortanswer"){
+          this.setState({
+            surveyquestions: updatedSurveyQuestions,
+            questioncontent: updatedQuestionContent,
+            priceestimate: this.state.priceestimate - (0.10 * this.state.numberresponses)
+          });
+        }else if(this.state.questioncontent[id.toString()][0] === "longanswer"){
+          this.setState({
+            surveyquestions: updatedSurveyQuestions,
+            questioncontent: updatedQuestionContent,
+            priceestimate: this.state.priceestimate - (0.25 * this.state.numberresponses)
+          });
+        }
       }
   }
 
+  //handle final creation of survey [submit button]
   submitForm() {
     for(const [key, value] of Object.entries(this.state.questioncontent)) {
       console.log(key, value);
     }
   }
 
+  // update question in content dictionary
   onUpdateQuestion(type, id, value) {
-    //make copy of existing dictionary
     const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
-    //add new value to
     updatedQuestionContent[id.toString()] = [type, value];
-    //setstate copy
     this.setState({
       questioncontent: updatedQuestionContent
     });
   }
 
+  // create short answer and update corresponding variables
+  createShortAnswer() {
+    const deleteId = this.keycount;
+    const newSurveyQuestions = this.state.surveyquestions.concat(<ShortAnswer
+      delete={() => this.deleteQuestion(deleteId)}
+      id={deleteId}
+      key={this.keycount}
+      onUpdate={this.onUpdateQuestion}/>);
+    this.onUpdateQuestion("shortanswer", deleteId, "NA");
+    this.keycount += 1;
+    this.setState({
+      surveyquestions: newSurveyQuestions,
+      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.10)
+    });
+  }
+
+  // create long answer and update corresponding variables
   createLongAnswer() {
     const deleteId = this.keycount;
     const newSurveyQuestions = this.state.surveyquestions.concat(<LongAnswer
@@ -74,21 +106,7 @@ export default class Dynamik extends Component {
     });
   }
 
-  createShortAnswer() {
-    const deleteId = this.keycount;
-    const newSurveyQuestions = this.state.surveyquestions.concat(<ShortAnswer
-      delete={() => this.deleteQuestion(deleteId)}
-      id={deleteId}
-      key={this.keycount}
-      onUpdate={this.onUpdateQuestion}/>);
-    this.onUpdateQuestion("ShortAnswer", deleteId, "NA");
-    this.keycount += 1;
-    this.setState({
-      surveyquestions: newSurveyQuestions,
-      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.10)
-    });
-  }
-
+  // return render of all survey questions
   loadSurveyQuestions() {
     return (this.state.surveyquestions);
   }
@@ -102,7 +120,7 @@ export default class Dynamik extends Component {
         </div>
         {this.loadSurveyQuestions()}
         <Well className="EstimatedPrice">Estimated Price: ${this.state.priceestimate}</Well>
-        <FormControl type="text" placeholder="Type in short-answer question." value={this.state.value} onChange={this.handleChange} />
+        <FormControl className="num-responses" type="text" placeholder="Number of Desired Responses." value={this.state.value} onChange={this.handleChange} />
         <ButtonToolbar className="add-question">
           <ButtonGroup>
             <Button bsSize="large" onClick={this.submitForm}>Create Survey</Button>
