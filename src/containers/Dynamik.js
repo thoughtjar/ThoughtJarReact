@@ -20,6 +20,7 @@ export default class Dynamik extends Component {
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
     this.onUpdateQuestion = this.onUpdateQuestion.bind(this);
+    this.handleChangeNumberResponses = this.handleChangeNumberResponses.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
@@ -62,6 +63,29 @@ export default class Dynamik extends Component {
   submitForm() {
     for(const [key, value] of Object.entries(this.state.questioncontent)) {
       console.log(key, value);
+    }
+  }
+
+  // handle number of responses change
+  handleChangeNumberResponses(event){
+    console.log(event.target.value);
+    console.log(event.target.value > 0);
+    var updatedEstimatedPrice;
+    if (event.target.value > 0){
+      if (this.state.numberresponses > 0){
+        updatedEstimatedPrice = this.state.priceestimate * ((event.target.value * 1.0)/this.state.numberresponses);
+      }else{
+        updatedEstimatedPrice = this.state.priceestimate * (event.target.value);
+      }
+      this.setState({
+        numberresponses: event.target.value,
+        priceestimate: updatedEstimatedPrice
+      });
+    } else {
+      this.setState({
+        numberresponses: event.target.value,
+        priceestimate: (this.state.priceestimate/this.state.numberresponses)
+      });
     }
   }
 
@@ -120,7 +144,12 @@ export default class Dynamik extends Component {
         </div>
         {this.loadSurveyQuestions()}
         <Well className="EstimatedPrice">Estimated Price: ${this.state.priceestimate}</Well>
-        <FormControl className="num-responses" type="text" placeholder="Number of Desired Responses." value={this.state.value} onChange={this.handleChange} />
+        <FormControl
+          className="num-responses"
+          type="number"
+          placeholder="Number of Desired Responses."
+          value={this.state.numberresponses}
+          onChange={this.handleChangeNumberResponses} />
         <ButtonToolbar className="add-question">
           <ButtonGroup>
             <Button bsSize="large" onClick={this.submitForm}>Create Survey</Button>
