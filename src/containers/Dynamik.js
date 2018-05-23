@@ -143,7 +143,7 @@ export default class Dynamik extends Component {
           <p>Click Add to start building.</p>
         </div>
         {this.loadSurveyQuestions()}
-        <Well className="EstimatedPrice">Estimated Price: ${this.state.priceestimate}</Well>
+        <Well className="EstimatedPrice">Estimated Price: ${Math.round(100*this.state.priceestimate)/100}</Well>
         <FormControl
           className="num-responses"
           type="number"
