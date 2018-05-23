@@ -93,8 +93,8 @@ export class MultipleChoice extends Component {
             </Col>
             <Col xs={6} md={3}>
               <ButtonGroup>
-                <Button> + </Button>
-                <Button> - </Button>
+                <Button onClick={this.props.addChoice}> + </Button>
+                <Button onClick={this.props.delChoice}> - </Button>
                 <Button onClick={this.props.delete}>Delete</Button>
               </ButtonGroup>
             </Col>

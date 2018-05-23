@@ -20,6 +20,8 @@ export default class Dynamik extends Component {
     this.createLongAnswer = this.createLongAnswer.bind(this);
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.addMultipleChoiceOption = this.addMultipleChoiceOption.bind(this);
+    this.delMultipleChoiceOption = this.delMultipleChoiceOption.bind(this);
     this.onUpdateQuestion = this.onUpdateQuestion.bind(this);
     this.handleChangeNumberResponses = this.handleChangeNumberResponses.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -58,6 +60,16 @@ export default class Dynamik extends Component {
           });
         }
       }
+  }
+
+  // child to parent callback function of adding multiple choice question
+  addMultipleChoiceOption() {
+    console.log("adding multiple choice question");
+  }
+
+  // child to parent callback function of deleting multiple choice question
+  delMultipleChoiceOption() {
+    console.log("deleting multiple choice option");
   }
 
   //handle final creation of survey [submit button]
@@ -143,7 +155,10 @@ export default class Dynamik extends Component {
           <h2>Welcome To Dynamik.</h2>
           <p>Click Add to start building.</p>
         </div>
-        <MultipleChoice numoptions="3" />
+        <MultipleChoice
+          numoptions="3"
+          addChoice={this.addMultipleChoiceOption}
+          delChoice={this.delMultipleChoiceOption}/>
         {this.loadSurveyQuestions()}
         <Well className="EstimatedPrice">Estimated Price: ${Math.round(100*this.state.priceestimate)/100}</Well>
         <FormControl
