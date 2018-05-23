@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Dynamik.css";
 import { ShortAnswer } from "./SurveyQuestionTemplates.js";
 import { LongAnswer } from "./SurveyQuestionTemplates.js";
+import { MultipleChoice } from "./SurveyQuestionTemplates.js";
 import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl } from "react-bootstrap";
 
 export default class Dynamik extends Component {
@@ -142,6 +143,7 @@ export default class Dynamik extends Component {
           <h2>Welcome To Dynamik.</h2>
           <p>Click Add to start building.</p>
         </div>
+        <MultipleChoice numoptions="3" />
         {this.loadSurveyQuestions()}
         <Well className="EstimatedPrice">Estimated Price: ${Math.round(100*this.state.priceestimate)/100}</Well>
         <FormControl

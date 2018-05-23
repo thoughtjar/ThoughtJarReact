@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./SurveyQuestionTemplates.css";
-import { FormControl, Row, Col, Button } from "react-bootstrap";
+import { FormControl, Row, Col, Button, ButtonGroup } from "react-bootstrap";
 
 export class ShortAnswer extends Component {
   constructor(props){
@@ -67,14 +67,19 @@ export class LongAnswer extends Component {
     );
   }
 }
-/*
+
 export class MultipleChoice extends Component {
   constructor(props){
     super(props);
-    this.options = []
-    for(var i=0; i<this.props.numoptions; i++){
-      this.options.
+    this.state = {
+      options: []
     }
+    console.log(this.props.numoptions);
+    for(var i=0; i<this.props.numoptions; i++){
+      console.log("looping through numoptions")
+      this.state.options = this.state.options.concat(<p key={this.state.options.length}>This is a multiple choice option.</p>);
+    }
+    console.log(this.state.options);
   }
 
   render() {
@@ -86,14 +91,17 @@ export class MultipleChoice extends Component {
             <Col xs={12} md={9}>
               <FormControl type="text" placeholder="Type in multiple-choice question." />
             </Col>
-            <Col xs={6} md={1}>
-              <Button onClick={this.props.delete}>Delete</Button>
+            <Col xs={6} md={3}>
+              <ButtonGroup>
+                <Button> + </Button>
+                <Button> - </Button>
+                <Button onClick={this.props.delete}>Delete</Button>
+              </ButtonGroup>
             </Col>
-            <>
           </Row>
+          { this.state.options }
         </div>
       </div>
     );
   }
 }
-*/
