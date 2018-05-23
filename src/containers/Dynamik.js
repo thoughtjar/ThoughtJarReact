@@ -18,6 +18,7 @@ export default class Dynamik extends Component {
     this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
     this.createLongAnswer = this.createLongAnswer.bind(this);
+    this.createMultipleChoice = this.createMultipleChoice.bind(this);
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
     this.addMultipleChoiceOption = this.addMultipleChoiceOption.bind(this);
@@ -45,20 +46,20 @@ export default class Dynamik extends Component {
         // delete question from copy of content dictionary
         const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
         delete updatedQuestionContent[id.toString()];
+        var updatedPriceEstimate
         // update price estimate depending on question type and other state variables
         if(this.state.questioncontent[id.toString()][0] === "shortanswer"){
-          this.setState({
-            surveyquestions: updatedSurveyQuestions,
-            questioncontent: updatedQuestionContent,
-            priceestimate: this.state.priceestimate - (0.10 * this.state.numberresponses)
-          });
+          updatedPriceEstimate = this.state.priceestimate - (0.15 * this.state.numberresponses);
         }else if(this.state.questioncontent[id.toString()][0] === "longanswer"){
-          this.setState({
-            surveyquestions: updatedSurveyQuestions,
-            questioncontent: updatedQuestionContent,
-            priceestimate: this.state.priceestimate - (0.25 * this.state.numberresponses)
-          });
+          updatedPriceEstimate = this.state.priceestimate - (0.25 * this.state.numberresponses);
+        }else if(this.state.questioncontent[id.toString()][0] === "multiplechoice"){
+          updatedPriceEstimate = this.state.priceestimate - (0.10 * this.state.numberresponses);
         }
+        this.setState({
+          surveyquestions: updatedSurveyQuestions,
+          questioncontent: updatedQuestionContent,
+          priceestimate: updatedPriceEstimate
+        });
       }
   }
 
@@ -123,7 +124,7 @@ export default class Dynamik extends Component {
     this.keycount += 1;
     this.setState({
       surveyquestions: newSurveyQuestions,
-      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.10)
+      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.15)
     });
   }
 
@@ -140,6 +141,23 @@ export default class Dynamik extends Component {
     this.setState({
       surveyquestions: newSurveyQuestions,
       priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.25)
+    });
+  }
+
+  // create multiple choice answer and update corresponding variables
+  createMultipleChoice() {
+    const deleteId = this.keycount;
+    const newSurveyQuestions = this.state.surveyquestions.concat(<MultipleChoice
+      delete={() => this.deleteQuestion(deleteId)}
+      id={deleteId}
+      key={this.keycount}
+      onUpdate={this.onUpdateQuestion}
+      numoptions="1"/>);
+    this.onUpdateQuestion("multiplechoice", deleteId, "NA");
+    this.keycount += 1;
+    this.setState({
+      surveyquestions: newSurveyQuestions,
+      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.10)
     });
   }
 
@@ -174,7 +192,7 @@ export default class Dynamik extends Component {
               <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
               <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
               <MenuItem eventKey="3">Number Answer Question</MenuItem>
-              <MenuItem eventKey="4">Multiple Choice Question</MenuItem>
+              <MenuItem eventKey="4" onClick={this.createMultipleChoice}>Multiple Choice Question</MenuItem>
             </DropdownButton>
           </ButtonGroup>
         </ButtonToolbar>
