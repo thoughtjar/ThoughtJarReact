@@ -74,12 +74,19 @@ export class MultipleChoice extends Component {
     this.state = {
       options: []
     }
-    console.log(this.props.numoptions);
     for(var i=0; i<this.props.numoptions; i++){
-      console.log("looping through numoptions")
       this.state.options = this.state.options.concat(<p key={this.state.options.length}>This is a multiple choice option.</p>);
     }
-    console.log(this.state.options);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleDel = this.handleDel.bind(this);
+  }
+
+  handleAdd(){
+    this.props.addChoice(this.props.id);
+  }
+
+  handleDel(){
+    this.props.delChoice(this.props.id);
   }
 
   render() {
@@ -93,8 +100,8 @@ export class MultipleChoice extends Component {
             </Col>
             <Col xs={6} md={3}>
               <ButtonGroup>
-                <Button onClick={this.props.addChoice}> + </Button>
-                <Button onClick={this.props.delChoice}> - </Button>
+                <Button onClick={this.handleAdd}> + </Button>
+                <Button onClick={this.handleDel}> - </Button>
                 <Button onClick={this.props.delete}>Delete</Button>
               </ButtonGroup>
             </Col>
