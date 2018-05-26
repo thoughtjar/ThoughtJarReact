@@ -94,6 +94,29 @@ export default class Dynamik extends Component {
   // child to parent callback function of deleting multiple choice question
   delMultipleChoiceOption(id) {
     console.log(id);
+    var deleteIndex = -1;
+    //fix survey surveyquestions
+    for(var i=0; i<this.state.surveyquestions.length; i++){
+      if (this.state.surveyquestions[i].props.id === (id)){
+        deleteIndex = i;
+        break;
+      }
+    }
+    var surveyquestionsclone = this.state.surveyquestions.slice(0);
+    const newNumOptions = parseInt(this.state.surveyquestions[deleteIndex].props.numoptions, 10) - 1;
+    const deleteId = this.keycount;
+    surveyquestionsclone[deleteIndex] = <MultipleChoice
+      delete={() => this.deleteQuestion(deleteId)}
+      id={deleteId}
+      key={this.keycount}
+      onUpdate={this.onUpdateQuestion}
+      addChoice={this.addMultipleChoiceOption}
+      delChoice={this.delMultipleChoiceOption}
+      numoptions={newNumOptions.toString()}/>
+    this.keycount += 1;
+    this.setState({
+      surveyquestions: surveyquestionsclone
+    });
   }
 
   //handle final creation of survey [submit button]
