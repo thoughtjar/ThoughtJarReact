@@ -68,6 +68,29 @@ export class LongAnswer extends Component {
   }
 }
 
+class MultipleChoiceOption extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    //this.props.onUpdate(this.props.id, event.target.value);
+    this.setState({value: event.target.value});
+  }
+
+  render(){
+    return(
+      <div className="MultipleChoiceOption">
+        <FormControl type="text" placeholder="Multiple Choice Option" value={this.state.value} onChange={this.handleChange} />
+      </div>
+    );
+  }
+}
+
 export class MultipleChoice extends Component {
   constructor(props){
     super(props);
@@ -75,7 +98,7 @@ export class MultipleChoice extends Component {
       options: []
     }
     for(var i=0; i<this.props.numoptions; i++){
-      this.state.options = this.state.options.concat(<p key={this.state.options.length}>This is a multiple choice option.</p>);
+      this.state.options = this.state.options.concat(<MultipleChoiceOption id={this.state.options.length} key={this.state.options.length} />);
     }
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);

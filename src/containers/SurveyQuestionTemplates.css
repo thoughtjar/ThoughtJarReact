@@ -1,3 +1,11 @@
 .ShortQuestionInput, .LongQuestionInput {
   width: 50%;
 }
+
+.MultipleChoice {
+  width: 75%;
+}
+
+.MultipleChoiceOption {
+  width: 60%;
+}
