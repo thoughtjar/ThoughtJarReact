@@ -78,7 +78,7 @@ class MultipleChoiceOption extends Component {
   }
 
   handleChange(event){
-    //this.props.onUpdate(this.props.id, event.target.value);
+    this.props.onUpdate(this.props.id, event.target.value);
     this.setState({value: event.target.value});
   }
 
@@ -95,13 +95,31 @@ export class MultipleChoice extends Component {
   constructor(props){
     super(props);
     this.state = {
-      options: []
-    }
+      options: [],
+      optionsContent: {}
+    };
     for(var i=0; i<this.props.numoptions; i++){
-      this.state.options = this.state.options.concat(<MultipleChoiceOption id={this.state.options.length} key={this.state.options.length} />);
+      this.state.options = this.state.options.concat(<MultipleChoiceOption
+        id={this.state.options.length}
+        key={this.state.options.length}
+        onUpdate={this.handleOptionChange.bind(this)} />);
     }
+    console.log(this.state);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);
+  }
+
+  //do you really need to store the option content in the multiple choice question???
+  //pass to parent instead.
+  handleOptionChange(optionId, newValue){
+    console.log(this.state);
+    const updatedOptionsContent = Object.assign({}, this.state.optionsContent);
+    updatedOptionsContent[optionId.toString()] = newValue;
+    console.log("setting state");
+    this.setState({
+      optionsContent: updatedOptionsContent
+    });
+    //console.log(this.state.optionsContent);
   }
 
   handleAdd(){
