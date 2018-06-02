@@ -96,7 +96,8 @@ export class MultipleChoice extends Component {
     super(props);
     this.state = {
       options: [],
-      optionsContent: {}
+      value: ''
+      //optionsContent: {}
     };
     for(var i=0; i<this.props.numoptions; i++){
       this.state.options = this.state.options.concat(<MultipleChoiceOption
@@ -104,22 +105,32 @@ export class MultipleChoice extends Component {
         key={this.state.options.length}
         onUpdate={this.handleOptionChange.bind(this)} />);
     }
-    console.log(this.state);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   //do you really need to store the option content in the multiple choice question???
   //pass to parent instead.
   handleOptionChange(optionId, newValue){
     console.log(this.state);
+    /*
     const updatedOptionsContent = Object.assign({}, this.state.optionsContent);
     updatedOptionsContent[optionId.toString()] = newValue;
     console.log("setting state");
     this.setState({
       optionsContent: updatedOptionsContent
     });
+    */
+    this.props.onUpdateMultipleChoiceOption(this.props.id, optionId, newValue);
     //console.log(this.state.optionsContent);
+  }
+
+  handleChange(event){
+    this.props.onUpdateMultipleChoiceQuestion("multiplechoice", this.props.id, event.target.value, this.props.numoptions);
+    this.setState({
+      value: event.target.value
+    });
   }
 
   handleAdd(){
@@ -137,7 +148,7 @@ export class MultipleChoice extends Component {
         <div className="MultipleChoiceQuestionInput">
           <Row>
             <Col xs={12} md={9}>
-              <FormControl type="text" placeholder="Type in multiple-choice question." />
+              <FormControl type="text" placeholder="Type in multiple-choice question." value={this.state.value} onChange={this.handleChange}/>
             </Col>
             <Col xs={6} md={3}>
               <ButtonGroup>
