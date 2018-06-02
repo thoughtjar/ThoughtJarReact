@@ -87,11 +87,18 @@ export default class Dynamik extends Component {
       addChoice={this.addMultipleChoiceOption}
       delChoice={this.delMultipleChoiceOption}
       numoptions={newNumOptions.toString()}/>
+    const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
+    delete updatedQuestionContent[id.toString()];
+    var blankoptions = []
+    for(var j=0; j<newNumOptions; j++){
+      blankoptions = blankoptions.concat("NA");
+    }
+    updatedQuestionContent[deleteId.toString()] = ["multiplechoice", "NA", blankoptions];
     this.keycount += 1;
     this.setState({
-      surveyquestions: surveyquestionsclone
+      surveyquestions: surveyquestionsclone,
+      questioncontent: updatedQuestionContent
     });
-    //fix questioncontent
   }
 
   // child to parent callback function of deleting multiple choice question
@@ -117,9 +124,17 @@ export default class Dynamik extends Component {
       addChoice={this.addMultipleChoiceOption}
       delChoice={this.delMultipleChoiceOption}
       numoptions={newNumOptions.toString()}/>
+    const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
+    delete updatedQuestionContent[id.toString()];
+    var blankoptions = []
+    for(var j=0; j<newNumOptions; j++){
+      blankoptions = blankoptions.concat("NA");
+    }
+    updatedQuestionContent[deleteId.toString()] = ["multiplechoice", "NA", blankoptions];
     this.keycount += 1;
     this.setState({
-      surveyquestions: surveyquestionsclone
+      surveyquestions: surveyquestionsclone,
+      questioncontent: updatedQuestionContent
     });
   }
 
@@ -168,7 +183,7 @@ export default class Dynamik extends Component {
     if(!(id.toString() in updatedQuestionContent)){
       var blankoptions = [];
       for(var i=0; i<numoptions; i++){
-        blankoptions.concat("NA")
+        blankoptions = blankoptions.concat("NA")
       }
       updatedQuestionContent[id.toString()] = [type, value, blankoptions];
     }else{
