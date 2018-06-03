@@ -108,6 +108,7 @@ export class MultipleChoice extends Component {
         onUpdate={this.handleOptionChange.bind(this)} />);
     }
     */
+    this.keycount = 1;
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);
     this.handleEditOptions = this.handleEditOptions.bind(this);
@@ -142,7 +143,7 @@ export class MultipleChoice extends Component {
   }
 
   handleChange(event){
-    this.props.onUpdateMultipleChoiceQuestion("multiplechoice", this.props.id, event.target.value, this.props.numoptions);
+    this.props.onUpdateQuestion("multiplechoice", this.props.id, event.target.value);
     this.setState({
       value: event.target.value
     });
@@ -156,9 +157,11 @@ export class MultipleChoice extends Component {
 
   saveOptionChanges(){
     const optionsList = this.state.optionContent.split(/\r?\n/);
+    this.props.onUpdateMultipleChoiceOptions(this.props.id, optionsList);
     var newOptions = []
     for(var i=0; i<optionsList.length; i++){
-      newOptions = newOptions.concat(<ListGroupItem>{optionsList[i]}</ListGroupItem>);
+      newOptions = newOptions.concat(<ListGroupItem key={this.keycount}>{optionsList[i]}</ListGroupItem>);
+      this.keycount += 1;
     }
     this.setState({
       options: newOptions,

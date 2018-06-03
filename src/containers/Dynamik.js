@@ -21,11 +21,8 @@ export default class Dynamik extends Component {
     this.createMultipleChoice = this.createMultipleChoice.bind(this);
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
-    this.addMultipleChoiceOption = this.addMultipleChoiceOption.bind(this);
-    this.delMultipleChoiceOption = this.delMultipleChoiceOption.bind(this);
     this.onUpdateQuestion = this.onUpdateQuestion.bind(this);
-    this.onUpdateMultipleChoiceQuestion = this.onUpdateMultipleChoiceQuestion.bind(this);
-    this.onUpdateMultipleChoiceOption = this.onUpdateMultipleChoiceOption.bind(this);
+    this.onUpdateMultipleChoiceOptions = this.onUpdateMultipleChoiceOptions.bind(this);
     this.handleChangeNumberResponses = this.handleChangeNumberResponses.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
@@ -65,79 +62,6 @@ export default class Dynamik extends Component {
       }
   }
 
-  // child to parent callback function of adding multiple choice question
-  addMultipleChoiceOption(id) {
-    var deleteIndex = -1;
-    //fix survey surveyquestions
-    for(var i=0; i<this.state.surveyquestions.length; i++){
-      if (this.state.surveyquestions[i].props.id === (id)){
-        deleteIndex = i;
-        break;
-      }
-    }
-    var surveyquestionsclone = this.state.surveyquestions.slice(0);
-    const newNumOptions = parseInt(this.state.surveyquestions[deleteIndex].props.numoptions, 10) + 1;
-    const deleteId = this.keycount;
-    surveyquestionsclone[deleteIndex] = <MultipleChoice
-      delete={() => this.deleteQuestion(deleteId)}
-      id={deleteId}
-      key={this.keycount}
-      onUpdateMultipleChoiceQuestion={this.onUpdateMultipleChoiceQuestion}
-      onUpdateMultipleChoiceOption={this.onUpdateMultipleChoiceOption}
-      addChoice={this.addMultipleChoiceOption}
-      delChoice={this.delMultipleChoiceOption}
-      numoptions={newNumOptions.toString()}/>
-    const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
-    delete updatedQuestionContent[id.toString()];
-    var blankoptions = []
-    for(var j=0; j<newNumOptions; j++){
-      blankoptions = blankoptions.concat("NA");
-    }
-    updatedQuestionContent[deleteId.toString()] = ["multiplechoice", "NA", blankoptions];
-    this.keycount += 1;
-    this.setState({
-      surveyquestions: surveyquestionsclone,
-      questioncontent: updatedQuestionContent
-    });
-  }
-
-  // child to parent callback function of deleting multiple choice question
-  delMultipleChoiceOption(id) {
-    console.log(id);
-    var deleteIndex = -1;
-    //fix survey surveyquestions
-    for(var i=0; i<this.state.surveyquestions.length; i++){
-      if (this.state.surveyquestions[i].props.id === (id)){
-        deleteIndex = i;
-        break;
-      }
-    }
-    var surveyquestionsclone = this.state.surveyquestions.slice(0);
-    const newNumOptions = parseInt(this.state.surveyquestions[deleteIndex].props.numoptions, 10) - 1;
-    const deleteId = this.keycount;
-    surveyquestionsclone[deleteIndex] = <MultipleChoice
-      delete={() => this.deleteQuestion(deleteId)}
-      id={deleteId}
-      key={this.keycount}
-      onUpdateMultipleChoiceQuestion={this.onUpdateMultipleChoiceQuestion}
-      onUpdateMultipleChoiceOption={this.onUpdateMultipleChoiceOption}
-      addChoice={this.addMultipleChoiceOption}
-      delChoice={this.delMultipleChoiceOption}
-      numoptions={newNumOptions.toString()}/>
-    const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
-    delete updatedQuestionContent[id.toString()];
-    var blankoptions = []
-    for(var j=0; j<newNumOptions; j++){
-      blankoptions = blankoptions.concat("NA");
-    }
-    updatedQuestionContent[deleteId.toString()] = ["multiplechoice", "NA", blankoptions];
-    this.keycount += 1;
-    this.setState({
-      surveyquestions: surveyquestionsclone,
-      questioncontent: updatedQuestionContent
-    });
-  }
-
   //handle final creation of survey [submit button]
   submitForm() {
     for(const [key, value] of Object.entries(this.state.questioncontent)) {
@@ -171,33 +95,23 @@ export default class Dynamik extends Component {
   // update question in content dictionary
   onUpdateQuestion(type, id, value) {
     const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
-    updatedQuestionContent[id.toString()] = [type, value];
-    this.setState({
-      questioncontent: updatedQuestionContent
-    });
-  }
-
-  // update multiple choice question content
-  onUpdateMultipleChoiceQuestion(type, id, value, numoptions){
-    const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
-    if(!(id.toString() in updatedQuestionContent)){
-      var blankoptions = [];
-      for(var i=0; i<numoptions; i++){
-        blankoptions = blankoptions.concat("NA")
+    if(type==="multiplechoice"){
+      if(!(id.toString() in updatedQuestionContent)){
+        updatedQuestionContent[id.toString()] = [type, value, []];
+      }else{
+        updatedQuestionContent[id.toString()][1] = value;
       }
-      updatedQuestionContent[id.toString()] = [type, value, blankoptions];
     }else{
-      updatedQuestionContent[id.toString()] = [type, value, this.state.questioncontent[id.toString()][2]];
+      updatedQuestionContent[id.toString()] = [type, value];
     }
     this.setState({
       questioncontent: updatedQuestionContent
     });
   }
 
-  // update multiple choice option content
-  onUpdateMultipleChoiceOption(parentId, id, value){
+  onUpdateMultipleChoiceOptions(id, optionsList){
     const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
-    updatedQuestionContent[parentId.toString()][2][id] = value;
+    updatedQuestionContent[id.toString()][2] = optionsList;
     this.setState({
       questioncontent: updatedQuestionContent
     });
@@ -242,12 +156,12 @@ export default class Dynamik extends Component {
       delete={() => this.deleteQuestion(deleteId)}
       id={deleteId}
       key={this.keycount}
-      onUpdateMultipleChoiceQuestion={this.onUpdateMultipleChoiceQuestion}
-      onUpdateMultipleChoiceOption={this.onUpdateMultipleChoiceOption}
+      onUpdateQuestion={this.onUpdateQuestion}
+      onUpdateMultipleChoiceOptions={this.onUpdateMultipleChoiceOptions}
       addChoice={this.addMultipleChoiceOption}
       delChoice={this.delMultipleChoiceOption}
       numoptions="1"/>);
-    this.onUpdateMultipleChoiceQuestion("multiplechoice", deleteId, "NA", 1);
+    this.onUpdateQuestion("multiplechoice", deleteId, "NA");
     this.keycount += 1;
     this.setState({
       surveyquestions: newSurveyQuestions,
