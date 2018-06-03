@@ -11,6 +11,10 @@
   margin-top: 10px;
 }
 
+.MCQuestion {
+  margin-bottom: 10px;
+}
+
 textarea.form-control {
   height: 200px;
 }

@@ -111,6 +111,7 @@ export class MultipleChoice extends Component {
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);
     this.handleEditOptions = this.handleEditOptions.bind(this);
+    this.handleCloseOptions = this.handleCloseOptions.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeOptionContent = this.handleChangeOptionContent.bind(this);
     this.saveOptionChanges = this.saveOptionChanges.bind(this);
@@ -134,6 +135,10 @@ export class MultipleChoice extends Component {
 
   handleEditOptions(){
     this.setState({showOptions: true});
+  }
+
+  handleCloseOptions(){
+    this.setState({showOptions: false});
   }
 
   handleChange(event){
@@ -176,7 +181,7 @@ export class MultipleChoice extends Component {
         <div className="MultipleChoiceQuestionInput">
           <Row>
             <Col xs={12} md={9}>
-              <FormControl type="text" placeholder="Type in multiple-choice question." value={this.state.value} onChange={this.handleChange}/>
+              <FormControl className="MCQuestion" type="text" placeholder="Type in multiple-choice question." value={this.state.value} onChange={this.handleChange}/>
             </Col>
             <Col xs={6} md={3}>
               <ButtonGroup>
@@ -188,7 +193,7 @@ export class MultipleChoice extends Component {
           <ListGroup>
             { this.state.options }
           </ListGroup>
-          <Modal show={this.state.showOptions}>
+          <Modal show={this.state.showOptions} onHide={this.handleCloseOptions}>
             <Modal.Header>
               <Modal.Title>Edit Multiple Choice Options</Modal.Title>
             </Modal.Header>
