@@ -10,3 +10,7 @@
   width: 60%;
   margin-top: 10px;
 }
+
+textarea.form-control {
+  height: 200px;
+}

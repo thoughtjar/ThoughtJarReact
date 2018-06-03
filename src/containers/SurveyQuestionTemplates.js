@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./SurveyQuestionTemplates.css";
-import { FormControl, Row, Col, Button, ButtonGroup } from "react-bootstrap";
+import { FormControl, Row, Col, Button, ButtonGroup, Modal, ListGroup, ListGroupItem } from "react-bootstrap";
 
 export class ShortAnswer extends Component {
   constructor(props){
@@ -96,18 +96,24 @@ export class MultipleChoice extends Component {
     super(props);
     this.state = {
       options: [],
-      value: ''
-      //optionsContent: {}
+      optionContent: '',
+      value: '',
+      showOptions: false
     };
+    /*
     for(var i=0; i<this.props.numoptions; i++){
       this.state.options = this.state.options.concat(<MultipleChoiceOption
         id={this.state.options.length}
         key={this.state.options.length}
         onUpdate={this.handleOptionChange.bind(this)} />);
     }
+    */
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDel = this.handleDel.bind(this);
+    this.handleEditOptions = this.handleEditOptions.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeOptionContent = this.handleChangeOptionContent.bind(this);
+    this.saveOptionChanges = this.saveOptionChanges.bind(this);
   }
 
   //do you really need to store the option content in the multiple choice question???
@@ -126,10 +132,32 @@ export class MultipleChoice extends Component {
     //console.log(this.state.optionsContent);
   }
 
+  handleEditOptions(){
+    this.setState({showOptions: true});
+  }
+
   handleChange(event){
     this.props.onUpdateMultipleChoiceQuestion("multiplechoice", this.props.id, event.target.value, this.props.numoptions);
     this.setState({
       value: event.target.value
+    });
+  }
+
+  handleChangeOptionContent(event){
+    this.setState({
+      optionContent: event.target.value
+    });
+  }
+
+  saveOptionChanges(){
+    const optionsList = this.state.optionContent.split(/\r?\n/);
+    var newOptions = []
+    for(var i=0; i<optionsList.length; i++){
+      newOptions = newOptions.concat(<ListGroupItem>{optionsList[i]}</ListGroupItem>);
+    }
+    this.setState({
+      options: newOptions,
+      showOptions: false
     });
   }
 
@@ -152,13 +180,31 @@ export class MultipleChoice extends Component {
             </Col>
             <Col xs={6} md={3}>
               <ButtonGroup>
-                <Button onClick={this.handleAdd}> + </Button>
-                <Button onClick={this.handleDel}> - </Button>
+                <Button onClick={this.handleEditOptions}> Edit Options </Button>
                 <Button onClick={this.props.delete}>Delete</Button>
               </ButtonGroup>
             </Col>
           </Row>
-          { this.state.options }
+          <ListGroup>
+            { this.state.options }
+          </ListGroup>
+          <Modal show={this.state.showOptions}>
+            <Modal.Header>
+              <Modal.Title>Edit Multiple Choice Options</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Enter each option on a new line.</p>
+              <FormControl
+                componentClass="textarea"
+                placeholder="type your options here"
+                className="OptionsArea"
+                value={this.state.optionContent}
+                onChange={this.handleChangeOptionContent}/>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.saveOptionChanges}>Save Changes</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       </div>
     );
