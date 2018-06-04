@@ -109,6 +109,7 @@ export default class Dynamik extends Component {
     });
   }
 
+  // update option content of multiple choice question in content dictionary
   onUpdateMultipleChoiceOptions(id, optionsList){
     const updatedQuestionContent = Object.assign({}, this.state.questioncontent);
     updatedQuestionContent[id.toString()][2] = optionsList;

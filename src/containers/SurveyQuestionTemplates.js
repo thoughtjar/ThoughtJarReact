@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./SurveyQuestionTemplates.css";
 import { FormControl, Row, Col, Button, ButtonGroup, Modal, ListGroup, ListGroupItem } from "react-bootstrap";
 
+// Short Answer Template Class
 export class ShortAnswer extends Component {
   constructor(props){
     super(props);
@@ -11,6 +12,7 @@ export class ShortAnswer extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // handle change to Short Answer QUESTION content
   handleChange(event){
     this.props.onUpdate("shortanswer", this.props.id, event.target.value);
     this.setState({value: event.target.value});
@@ -35,6 +37,7 @@ export class ShortAnswer extends Component {
   }
 }
 
+// Long Answer Template Class
 export class LongAnswer extends Component {
   constructor(props){
     super(props);
@@ -44,6 +47,7 @@ export class LongAnswer extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // handle change to QUESTION content
   handleChange(event){
     this.props.onUpdate("longanswer", this.props.id, event.target.value);
     this.setState({value: event.target.value});
@@ -68,29 +72,7 @@ export class LongAnswer extends Component {
   }
 }
 
-class MultipleChoiceOption extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      value: ''
-    }
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event){
-    this.props.onUpdate(this.props.id, event.target.value);
-    this.setState({value: event.target.value});
-  }
-
-  render(){
-    return(
-      <div className="MultipleChoiceOption">
-        <FormControl type="text" placeholder="Multiple Choice Option" value={this.state.value} onChange={this.handleChange} />
-      </div>
-    );
-  }
-}
-
+// Multiple Choice Template Class
 export class MultipleChoice extends Component {
   constructor(props){
     super(props);
@@ -100,17 +82,7 @@ export class MultipleChoice extends Component {
       value: '',
       showOptions: false
     };
-    /*
-    for(var i=0; i<this.props.numoptions; i++){
-      this.state.options = this.state.options.concat(<MultipleChoiceOption
-        id={this.state.options.length}
-        key={this.state.options.length}
-        onUpdate={this.handleOptionChange.bind(this)} />);
-    }
-    */
     this.keycount = 1;
-    this.handleAdd = this.handleAdd.bind(this);
-    this.handleDel = this.handleDel.bind(this);
     this.handleEditOptions = this.handleEditOptions.bind(this);
     this.handleCloseOptions = this.handleCloseOptions.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -118,30 +90,17 @@ export class MultipleChoice extends Component {
     this.saveOptionChanges = this.saveOptionChanges.bind(this);
   }
 
-  //do you really need to store the option content in the multiple choice question???
-  //pass to parent instead.
-  handleOptionChange(optionId, newValue){
-    console.log(this.state);
-    /*
-    const updatedOptionsContent = Object.assign({}, this.state.optionsContent);
-    updatedOptionsContent[optionId.toString()] = newValue;
-    console.log("setting state");
-    this.setState({
-      optionsContent: updatedOptionsContent
-    });
-    */
-    this.props.onUpdateMultipleChoiceOption(this.props.id, optionId, newValue);
-    //console.log(this.state.optionsContent);
-  }
-
+  // open up modal
   handleEditOptions(){
     this.setState({showOptions: true});
   }
 
+  // hide modal
   handleCloseOptions(){
     this.setState({showOptions: false});
   }
 
+  // handle multiple choice QUESTION change
   handleChange(event){
     this.props.onUpdateQuestion("multiplechoice", this.props.id, event.target.value);
     this.setState({
@@ -149,12 +108,14 @@ export class MultipleChoice extends Component {
     });
   }
 
+  // handle multiple choice OPTION change
   handleChangeOptionContent(event){
     this.setState({
       optionContent: event.target.value
     });
   }
 
+  // rerender options after save change
   saveOptionChanges(){
     const optionsList = this.state.optionContent.split(/\r?\n/);
     this.props.onUpdateMultipleChoiceOptions(this.props.id, optionsList);
@@ -167,14 +128,6 @@ export class MultipleChoice extends Component {
       options: newOptions,
       showOptions: false
     });
-  }
-
-  handleAdd(){
-    this.props.addChoice(this.props.id);
-  }
-
-  handleDel(){
-    this.props.delChoice(this.props.id);
   }
 
   render() {
