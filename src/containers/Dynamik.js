@@ -67,6 +67,16 @@ export default class Dynamik extends Component {
     for(const [key, value] of Object.entries(this.state.questioncontent)) {
       console.log(key, value);
     }
+    const url = "http://172.20.10.8:5000/createSurvey"
+    fetch(url, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(this.state.questioncontent), // data can be `string` or {object}!
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .catch(error => console.error('Error:', error))
+    .then(response => console.log('Success:', response));
   }
 
   // handle number of responses change
