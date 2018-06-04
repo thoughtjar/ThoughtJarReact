@@ -135,9 +135,9 @@ export class MultipleChoice extends Component {
       <div className="MultipleChoice">
         <h4>Multiple Choice Question</h4>
         <div className="MultipleChoiceQuestionInput">
-          <Row>
+          <Row className="MCQuestion">
             <Col xs={12} md={9}>
-              <FormControl className="MCQuestion" type="text" placeholder="Type in multiple-choice question." value={this.state.value} onChange={this.handleChange}/>
+              <FormControl type="text" placeholder="Type in multiple-choice question." value={this.state.value} onChange={this.handleChange}/>
             </Col>
             <Col xs={6} md={3}>
               <ButtonGroup>
