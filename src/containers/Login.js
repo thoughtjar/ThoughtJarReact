@@ -2,6 +2,7 @@ import React, { Component } from "react";
 //import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { GoogleLogin } from 'react-google-login';
 import "./Login.css";
+import cookie from 'react-cookies';
 
 export default class Login extends Component {
   constructor(props) {
@@ -21,8 +22,17 @@ export default class Login extends Component {
       headers:{
         'Content-Type': 'application/json'
       }
-    }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
+    }).then(function(res){
+      console.log(res.json());
+      //save the name of the user to cookies
+      //save the email of the user to cookies
+      //save the access_token of the user to cookies
+      /*
+      console.log(cookie.load('token'));
+      cookie.save('token', "token123", { path: '/' });
+      console.log(cookie.load('token'));
+      */
+    }).catch(error => console.error('Error:', error))
     .then(response => console.log('Success:', response));
   }
 

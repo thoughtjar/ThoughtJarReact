@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./MyJars.css";
+import cookie from 'react-cookies';
 
 export default class MyJars extends Component {
   constructor(props){
@@ -8,6 +9,7 @@ export default class MyJars extends Component {
       requestFailed : false
     }
     this.getJars = this.getJars.bind(this);
+    console.log(cookie.load('token'));
   }
 
   getJars(url){

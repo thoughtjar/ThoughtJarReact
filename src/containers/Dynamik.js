@@ -4,6 +4,7 @@ import { ShortAnswer } from "./SurveyQuestionTemplates.js";
 import { LongAnswer } from "./SurveyQuestionTemplates.js";
 import { MultipleChoice } from "./SurveyQuestionTemplates.js";
 import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl } from "react-bootstrap";
+import cookie from 'react-cookies';
 
 export default class Dynamik extends Component {
 
@@ -186,32 +187,41 @@ export default class Dynamik extends Component {
   }
 
   render() {
-    return(
-      <div className="Dynamik">
-        <div className="DynamikHeader">
-          <h2>Welcome To Dynamik.</h2>
-          <p>Click Add to start building.</p>
+    if(cookie.load('access-token') === undefined){
+      return(
+        <div className="RedirectLoginPage">
+          <h4>Please login before creating surveys.</h4>
+          <Button>Go to Login Page.</Button>
         </div>
-        {this.loadSurveyQuestions()}
-        <Well className="EstimatedPrice">Estimated Price: ${Math.round(100*this.state.priceestimate)/100}</Well>
-        <FormControl
-          className="num-responses"
-          type="number"
-          placeholder="Number of Desired Responses."
-          value={this.state.numberresponses}
-          onChange={this.handleChangeNumberResponses} />
-        <ButtonToolbar className="add-question">
-          <ButtonGroup>
-            <Button bsSize="large" onClick={this.submitForm}>Create Survey</Button>
-            <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>
-              <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
-              <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
-              <MenuItem eventKey="3">Number Answer Question</MenuItem>
-              <MenuItem eventKey="4" onClick={this.createMultipleChoice}>Multiple Choice Question</MenuItem>
-            </DropdownButton>
-          </ButtonGroup>
-        </ButtonToolbar>
-      </div>
-    );
+      );
+    }else{
+      return(
+        <div className="Dynamik">
+          <div className="DynamikHeader">
+            <h2>Welcome To Dynamik.</h2>
+            <p>Click Add to start building.</p>
+          </div>
+          {this.loadSurveyQuestions()}
+          <Well className="EstimatedPrice">Estimated Price: ${Math.round(100*this.state.priceestimate)/100}</Well>
+          <FormControl
+            className="num-responses"
+            type="number"
+            placeholder="Number of Desired Responses."
+            value={this.state.numberresponses}
+            onChange={this.handleChangeNumberResponses} />
+          <ButtonToolbar className="add-question">
+            <ButtonGroup>
+              <Button bsSize="large" onClick={this.submitForm}>Create Survey</Button>
+              <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>
+                <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
+                <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
+                <MenuItem eventKey="3">Number Answer Question</MenuItem>
+                <MenuItem eventKey="4" onClick={this.createMultipleChoice}>Multiple Choice Question</MenuItem>
+              </DropdownButton>
+            </ButtonGroup>
+          </ButtonToolbar>
+        </div>
+      );
+    }
   }
 }
