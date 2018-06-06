@@ -45,7 +45,6 @@ export default class Login extends Component {
         cookie.save('name', json['name'], { path: '/' });
         cookie.save('email', json['email'], { path: '/' });
         cookie.save('access-token', json['access-token'], { path: '/' });
-        cookie.save('dbId', json['dbId'], { path: '/' });
         this.setState({
           name: json['name'].split(" ")[0],
           email: json['email']
@@ -60,7 +59,6 @@ export default class Login extends Component {
       'name': cookie.load('name'),
       'email': cookie.load('email'),
       'access-token': cookie.load('access-token'),
-      'dbId': cookie.load('dbId')
     };
     //const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/logout";
     const url = "http://localhost:5000/authenticate";
@@ -80,7 +78,6 @@ export default class Login extends Component {
     cookie.remove('name');
     cookie.remove('email');
     cookie.remove('access-token');
-    cookie.remove('dbId');
     this.setState({
       name: "NA",
       email: "NA"

@@ -16,8 +16,8 @@ export default class Dynamik extends Component {
       numberresponses: 1,
       priceestimate: 0.0,
       showDetails: false,
-      jarTitle: "Untitled",
-      jarDescription: "None"
+      jarTitle: "",
+      jarDescription: ""
     };
     this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
@@ -32,6 +32,7 @@ export default class Dynamik extends Component {
     this.handleChangeJarDescription = this.handleChangeJarDescription.bind(this);
     this.handleCloseDetails = this.handleCloseDetails.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.uploadJar = this.uploadJar.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
   }
 
@@ -72,14 +73,27 @@ export default class Dynamik extends Component {
 
   //handle final creation of survey [submit button]
   submitForm() {
+    this.setState({
+      showDetails: true
+    });
+  }
+
+  // upload jar to server
+  uploadJar() {
     for(const [key, value] of Object.entries(this.state.questioncontent)) {
       console.log(key, value);
     }
     //const url = "http://172.20.10.8:5000/createSurvey";
+    const data = {
+      'title': this.state.jarTitle,
+      'description': this.state.jarDescription,
+      'access-token': cookie.load('access-token'),
+      'questionsList': this.state.questioncontent
+    }
     const url ="http://localhost:5000/createSurvey";
     fetch(url, {
       method: 'POST', // or 'PUT'
-      body: JSON.stringify(this.state.questioncontent), // data can be `string` or {object}!
+      body: data, // data can be `string` or {object}!
       headers:{
         'Content-Type': 'application/json'
       }
@@ -260,6 +274,7 @@ export default class Dynamik extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter Title of Jar"
+                className="JarTitle"
                 value={this.state.jarTitle}
                 onChange={this.handleChangeJarTitle}/>
               <FormControl
@@ -270,7 +285,7 @@ export default class Dynamik extends Component {
                 onChange={this.handleChangeJarDescription}/>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.saveOptionChanges}>Create</Button>
+              <Button onClick={this.uploadJar}>Create</Button>
             </Modal.Footer>
           </Modal>
         </div>
