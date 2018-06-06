@@ -93,12 +93,11 @@ export default class Dynamik extends Component {
     const url ="http://localhost:5000/createSurvey";
     fetch(url, {
       method: 'POST', // or 'PUT'
-      body: data, // data can be `string` or {object}!
+      body: JSON.stringify(data), // data can be `string` or {object}!
       headers:{
         'Content-Type': 'application/json'
       }
-    }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
+    }).catch(error => console.error('Error:', error))
     .then(response => console.log('Success:', response));
   }
 
