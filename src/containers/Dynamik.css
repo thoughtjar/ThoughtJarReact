@@ -25,3 +25,7 @@
   bottom: 20px;
   right: 20px;
 }
+
+textarea.form-control {
+  height: 200px;
+}

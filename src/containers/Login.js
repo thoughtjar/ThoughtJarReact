@@ -8,10 +8,17 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      name: "NA",
-      email: "NA"
-    };
+    if(cookie.load('access-token') === undefined){
+      this.state = {
+        name: "NA",
+        email: "NA"
+      };
+    }else{
+      this.state = {
+        name: cookie.load('name'),
+        email: cookie.load('email')
+      }
+    }
     this.responseGoogle = this.responseGoogle.bind(this);
     this.logout = this.logout.bind(this);
 
@@ -34,6 +41,7 @@ export default class Login extends Component {
     }).then(res => {
       //console.log(res.json());
       return res.json().then(json => {
+        console.log(json);
         cookie.save('name', json['name'], { path: '/' });
         cookie.save('email', json['email'], { path: '/' });
         cookie.save('access-token', json['access-token'], { path: '/' });

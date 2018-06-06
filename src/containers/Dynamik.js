@@ -3,7 +3,7 @@ import "./Dynamik.css";
 import { ShortAnswer } from "./SurveyQuestionTemplates.js";
 import { LongAnswer } from "./SurveyQuestionTemplates.js";
 import { MultipleChoice } from "./SurveyQuestionTemplates.js";
-import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl } from "react-bootstrap";
+import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl, Modal } from "react-bootstrap";
 import cookie from 'react-cookies';
 
 export default class Dynamik extends Component {
@@ -14,7 +14,10 @@ export default class Dynamik extends Component {
       surveyquestions: [],
       questioncontent: {},
       numberresponses: 1,
-      priceestimate: 0.0
+      priceestimate: 0.0,
+      showDetails: false,
+      jarTitle: "Untitled",
+      jarDescription: "None"
     };
     this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
@@ -25,6 +28,9 @@ export default class Dynamik extends Component {
     this.onUpdateQuestion = this.onUpdateQuestion.bind(this);
     this.onUpdateMultipleChoiceOptions = this.onUpdateMultipleChoiceOptions.bind(this);
     this.handleChangeNumberResponses = this.handleChangeNumberResponses.bind(this);
+    this.handleChangeJarTitle = this.handleChangeJarTitle.bind(this);
+    this.handleChangeJarDescription = this.handleChangeJarDescription.bind(this);
+    this.handleCloseDetails = this.handleCloseDetails.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
   }
@@ -69,7 +75,8 @@ export default class Dynamik extends Component {
     for(const [key, value] of Object.entries(this.state.questioncontent)) {
       console.log(key, value);
     }
-    const url = "http://172.20.10.8:5000/createSurvey"
+    //const url = "http://172.20.10.8:5000/createSurvey";
+    const url ="http://localhost:5000/createSurvey";
     fetch(url, {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(this.state.questioncontent), // data can be `string` or {object}!
@@ -102,6 +109,20 @@ export default class Dynamik extends Component {
         priceestimate: (this.state.priceestimate/this.state.numberresponses)
       });
     }
+  }
+
+  // handle jar title change
+  handleChangeJarTitle(event){
+    this.setState({
+      jarTitle: event.target.value
+    });
+  }
+
+  // handle jar description change
+  handleChangeJarDescription(event){
+    this.setState({
+      jarDescription: event.target.value
+    });
   }
 
   // update question in content dictionary
@@ -192,6 +213,11 @@ export default class Dynamik extends Component {
     return (this.state.surveyquestions);
   }
 
+  // hide close details modal for surveys
+  handleCloseDetails() {
+    this.setState({showDetails: false});
+  }
+
   render() {
     if(cookie.load('access-token') === undefined){
       return(
@@ -226,6 +252,27 @@ export default class Dynamik extends Component {
               </DropdownButton>
             </ButtonGroup>
           </ButtonToolbar>
+          <Modal show={this.state.showDetails} onHide={this.handleCloseDetails}>
+            <Modal.Header>
+              <Modal.Title>Edit Jar Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <FormControl
+                type="text"
+                placeholder="Enter Title of Jar"
+                value={this.state.jarTitle}
+                onChange={this.handleChangeJarTitle}/>
+              <FormControl
+                componentClass="textarea"
+                placeholder="Describe your Jar."
+                className="JarDescription"
+                value={this.state.jarDescription}
+                onChange={this.handleChangeJarDescription}/>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.saveOptionChanges}>Create</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       );
     }
