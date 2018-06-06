@@ -36,6 +36,7 @@ export default class Login extends Component {
         cookie.save('name', json['name'], { path: '/' });
         cookie.save('email', json['email'], { path: '/' });
         cookie.save('access-token', json['access-token'], { path: '/' });
+        cookie.save('dbId', json['dbId'], { path: '/' });
         this.setState({
           name: json['name'].split(" ")[0],
           email: json['email']
@@ -49,7 +50,8 @@ export default class Login extends Component {
     var data = {
       'name': cookie.load('name'),
       'email': cookie.load('email'),
-      'access-token': cookie.load('access-token')
+      'access-token': cookie.load('access-token'),
+      'dbId': cookie.load('dbId')
     };
     const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/logout";
     fetch(url, {
@@ -68,6 +70,7 @@ export default class Login extends Component {
     cookie.remove('name');
     cookie.remove('email');
     cookie.remove('access-token');
+    cookie.remove('dbId');
     this.setState({
       name: "NA",
       email: "NA"
@@ -78,6 +81,12 @@ export default class Login extends Component {
     if(cookie.load('access-token') === undefined){ //user is not logged in
       return (
         <div className="Login">
+          <h1>Login to Thought Jar with Google.</h1>
+          <p>
+            <img src="https://cdn.vox-cdn.com/thumbor/Pkmq1nm3skO0-j693JTMd7RL0Zk=/0x0:2012x1341/1200x800/filters:focal(0x0:2012x1341)/cdn.vox-cdn.com/uploads/chorus_image/image/47070706/google2.0.0.jpg"
+              className="GoogleLogo"
+              alt="google_logo"/>
+          </p>
           <GoogleLogin
             clientId="665725879844-0prbhschdv3mdh2ignucocl9cq3em3dm.apps.googleusercontent.com"
             buttonText="Login"
