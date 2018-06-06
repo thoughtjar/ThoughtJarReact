@@ -23,7 +23,8 @@ export default class Login extends Component {
     console.log(response);
     const id_token = response.tokenId;
     var data = {"id_token": id_token};
-    const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/authenticate";
+    //const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/authenticate";
+    const url = "http://localhost:5000/authenticate";
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -53,7 +54,8 @@ export default class Login extends Component {
       'access-token': cookie.load('access-token'),
       'dbId': cookie.load('dbId')
     };
-    const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/logout";
+    //const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/logout";
+    const url = "http://localhost:5000/authenticate";
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),

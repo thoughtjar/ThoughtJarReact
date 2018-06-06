@@ -26,6 +26,7 @@ export default class Dynamik extends Component {
     this.onUpdateMultipleChoiceOptions = this.onUpdateMultipleChoiceOptions.bind(this);
     this.handleChangeNumberResponses = this.handleChangeNumberResponses.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.routeLoginPage = this.routeLoginPage.bind(this);
   }
 
   //handle survey question delete
@@ -181,6 +182,11 @@ export default class Dynamik extends Component {
     });
   }
 
+  // go to login page
+  routeLoginPage(){
+    this.props.history.push("/login");
+  }
+
   // return render of all survey questions
   loadSurveyQuestions() {
     return (this.state.surveyquestions);
@@ -190,8 +196,8 @@ export default class Dynamik extends Component {
     if(cookie.load('access-token') === undefined){
       return(
         <div className="RedirectLoginPage">
-          <h4>Please login before creating surveys.</h4>
-          <Button>Go to Login Page.</Button>
+          <h1>Please login before creating surveys.</h1>
+          <Button bsSize="large" onClick={this.routeLoginPage}>Go to Login Page.</Button>
         </div>
       );
     }else{
