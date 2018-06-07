@@ -1,20 +1,24 @@
 import React, { Component } from "react";
-import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
-import "./FillJars.css";
+import { Button } from "react-bootstrap";
+import "./FillJar.css";
 import cookie from 'react-cookies';
 
-export default class FillJars extends Component {
+const queryString = require('query-string');
+
+export default class FillJar extends Component {
   constructor(props){
     super(props);
     this.state = {
     };
+    this.params = queryString.parse(this.props.location.search);
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
   }
 
   getJars(url){
     var data = {
-      "access-token": cookie.load('access-token')
+      "access-token": cookie.load('access-token'),
+      "identifier": this.params["identifier"]
     };
     console.log(data);
     fetch(url, {
@@ -26,17 +30,6 @@ export default class FillJars extends Component {
     }).then(res => {
       return res.json().then(json => {
         console.log(json);
-        var surveyList = json["jars"];
-        var updatedJarList = [];
-        for(var i=0; i<surveyList.length; i++){
-          const routePath = "/filljar?identifier="+surveyList[i]["identifier"];
-          console.log(routePath);
-          updatedJarList = updatedJarList.concat(<ListGroupItem href={routePath} identifier={surveyList[i]["identifier"]} key={updatedJarList.length} header={surveyList[i]["title"]}>{surveyList[i]["description"]}</ListGroupItem>);
-        };
-        console.log(updatedJarList);
-        this.setState({
-          jarList: updatedJarList
-        });
       });
     }).catch(error => console.error('Error:', error))
     .then(response => console.log('Success'));
@@ -49,11 +42,10 @@ export default class FillJars extends Component {
 
   componentDidMount(){
     //this.getJars("http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/getJars");
-    this.getJars("http://localhost:5000/fillJars");
+    this.getJars("http://localhost:5000/fillJar");
   }
 
   render() {
-    console.log("rendering");
     if(cookie.load('access-token') === undefined){
       return(
         <div className="RedirectLoginPage">
@@ -62,13 +54,10 @@ export default class FillJars extends Component {
         </div>
       );
     }
-    if(!this.state.jarList) return <h4>Loading ...</h4>
+    //if(!this.state.jarList) return <h4>Loading ...</h4>
     return(
-      <div className="FillJars">
-        <h2>Available Jars</h2>
-        <ListGroup>
-          {this.state.jarList}
-        </ListGroup>
+      <div className="FillJar">
+        <h2>Jar Title</h2>
       </div>
     );
   }

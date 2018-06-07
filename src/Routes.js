@@ -9,6 +9,7 @@ import Baboon from "./containers/Baboon";
 import Dynamik from "./containers/Dynamik";
 import MyJars from "./containers/MyJars";
 import FillJars from "./containers/FillJars";
+import FillJar from "./containers/FillJar";
 
 export default () =>
   <Switch>
@@ -19,6 +20,7 @@ export default () =>
     <Route path="/template/dynamik" exact component={Dynamik} />
     <Route path="/myjars" exact component={MyJars} />
     <Route path="/filljars" exact component={FillJars} />
+    <Route path="/filljar" exact component={FillJar} />
     <Route path="/aboutus" exact component={AboutUs} />
     <Route component={NotFound} />
   </Switch>;

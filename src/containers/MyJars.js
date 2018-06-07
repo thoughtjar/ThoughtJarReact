@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
 import "./MyJars.css";
 import cookie from 'react-cookies';
 
@@ -6,44 +7,64 @@ export default class MyJars extends Component {
   constructor(props){
     super(props);
     this.state = {
-      requestFailed : false
-    }
+    };
     this.getJars = this.getJars.bind(this);
-    console.log(cookie.load('token'));
+    this.routeLoginPage = this.routeLoginPage.bind(this);
   }
 
   getJars(url){
-    fetch(url)
-      .then(response => {
-        if(!response.ok) {
-          throw Error("Network Request Failed")
-        }
-        return response
-      })
-      .then(d => d.json())
-      .then(d => {
+    var data = {
+      "access-token": cookie.load('access-token')
+    };
+    console.log(data);
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      return res.json().then(json => {
+        console.log(json);
+        var surveyList = json["jars"];
+        var updatedJarList = [];
+        for(var i=0; i<surveyList.length; i++){
+          updatedJarList = updatedJarList.concat(<ListGroupItem identifier={surveyList[i]["identifier"]} key={updatedJarList.length} header={surveyList[i]["title"]}>{surveyList[i]["description"]}</ListGroupItem>);
+        };
         this.setState({
-          data: d
-        })
-      }, () => {
-        this.setState({
-          requestFailed: true
-        })
-      })
+          jarList: updatedJarList
+        });
+      });
+    }).catch(error => console.error('Error:', error))
+    .then(response => console.log('Success'));
+  }
+
+  // go to login page
+  routeLoginPage(){
+    this.props.history.push("/login");
   }
 
   componentDidMount(){
-    this.getJars("https://api.github.com/users/xeliot");
+    this.getJars("http://localhost:5000/myJars");
   }
 
   render() {
 
-    if(this.state.requestFailed) return <h2 className="network-failed">Could Not Connect to the Network.</h2>
-    if(!this.state.data) return <h4>Loading ...</h4>
+    if(cookie.load('access-token') === undefined){
+      return(
+        <div className="RedirectLoginPage">
+          <h1>Please login before creating jars.</h1>
+          <Button bsSize="large" onClick={this.routeLoginPage}>Go to Login Page.</Button>
+        </div>
+      );
+    }
+    if(!this.state.jarList) return <h4>Loading ...</h4>
     return(
       <div className="MyJars">
         <h2>My Jar Dashboard</h2>
-        {this.state.data.name}
+        <ListGroup>
+          {this.state.jarList}
+        </ListGroup>
       </div>
     );
   }
