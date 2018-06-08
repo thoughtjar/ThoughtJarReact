@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./FillJar.css";
 import cookie from 'react-cookies';
-import { ShortAnswerResponse } from "./ResponseQuestionTemplates.js";
+import { ShortAnswerResponse, LongAnswerResponse } from "./ResponseQuestionTemplates.js";
 
 const queryString = require('query-string');
 
@@ -51,7 +51,6 @@ export default class FillJar extends Component {
         for(var i=0; i<questions.length; i++){
           if(questions[i]['questionType']==="shortanswer"){
             console.log("shortanswer");
-            //newQuestionContent = newQuestionContent.concat(<ControlLabel key={newQuestionContent.length}>{questions[i]['questionField']}</ControlLabel>);
             newQuestionContent = newQuestionContent.concat(<ShortAnswerResponse id={newQuestionContent.length}
               key={newQuestionContent.length}
               title={questions[i]['questionField']}
