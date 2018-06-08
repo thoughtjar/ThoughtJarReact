@@ -1,20 +1,7 @@
-.ShortQuestionInput, .LongQuestionInput {
-  width: 50%;
-}
-
-.MultipleChoice {
-  width: 75%;
-}
-
-.MultipleChoiceOption {
-  width: 60%;
-  margin-top: 10px;
-}
-
-.MCQuestion {
-  margin-bottom: 10px;
-}
-
 textarea.form-control {
   height: 200px;
+}
+
+.ShortAnswerResponse, .LongAnswerResponse, .MultipleChoiceResponse {
+  margin-bottom: 15px;
 }

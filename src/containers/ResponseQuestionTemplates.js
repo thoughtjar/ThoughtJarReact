@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./SurveyQuestionTemplates.css";
-import { FormControl, ControlLabel } from "react-bootstrap";
+import { FormControl, ControlLabel, FormGroup, Radio } from "react-bootstrap";
 
 // Short Answer Response Template Class
 export class ShortAnswerResponse extends Component {
@@ -58,5 +58,49 @@ export class LongAnswerResponse extends Component {
         </div>
       </div>
     );
+  }
+}
+
+// Multiple Choice Response Template class
+export class MultipleChoiceResponse extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: '',
+      options: []
+    };
+    this.handleOptionChange = this.handleOptionChange.bind(this);
+  }
+
+  componentDidMount(){
+    var newOptions = []
+    for(var i=0; i<this.props.options.length; i++){
+      var groupName = "MC "+this.props.id;
+      newOptions = newOptions.concat(<Radio onClick={this.handleOptionChange.bind(this, this.props.options[i])}
+        name={groupName}
+        key={newOptions.length}>
+          {this.props.options[i]}
+        </Radio>);
+    }
+    this.setState({
+      options: newOptions
+    });
+  }
+
+  handleOptionChange(option){
+    this.props.onUpdate(this.props.id, option);
+  }
+
+  render() {
+    return(
+      <div className="MultipleChoiceResponse">
+        <ControlLabel>{this.props.title}</ControlLabel>
+        <div className="MultipleChoiceOptions">
+          <FormGroup>
+            {this.state.options}
+          </FormGroup>
+        </div>
+      </div>
+    )
   }
 }

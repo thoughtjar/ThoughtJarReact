@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup } from "react-bootstrap";
 import "./FillJar.css";
 import cookie from 'react-cookies';
-import { ShortAnswerResponse, LongAnswerResponse } from "./ResponseQuestionTemplates.js";
+import { ShortAnswerResponse, LongAnswerResponse, MultipleChoiceResponse } from "./ResponseQuestionTemplates.js";
 
 const queryString = require('query-string');
 
@@ -47,8 +47,9 @@ export default class FillJar extends Component {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      return res.json().then(json => {
-        console.log(json);
+      return res.json().then(jsonres => {
+        console.log(jsonres);
+        var json = jsonres['surveyData'];
         var questions = json['questionList'];
         console.log(questions);
         var newQuestionContent = []
@@ -56,20 +57,25 @@ export default class FillJar extends Component {
         for(var i=0; i<questions.length; i++){
           if(questions[i]['questionType']==="shortanswer"){
             console.log("shortanswer");
+            newResponseData[newQuestionContent.length.toString()] = '';
             newQuestionContent = newQuestionContent.concat(<ShortAnswerResponse id={newQuestionContent.length}
               key={newQuestionContent.length}
               title={questions[i]['questionField']}
               onUpdate={this.handleDataChange}/>);
-            newResponseData[newQuestionContent.length.toString()] = '';
           }else if(questions[i]['questionType']==="longanswer"){
             console.log("longanswer");
+            newResponseData[newQuestionContent.length.toString()] = '';
             newQuestionContent = newQuestionContent.concat(<LongAnswerResponse id={newQuestionContent.length}
               key={newQuestionContent.length}
               title={questions[i]['questionField']}
               onUpdate={this.handleDataChange}/>)
-            newResponseData[newQuestionContent.length.toString()] = '';
           }else if(questions[i]['questionType']==="multiplechoice"){
-            console.log("multiplechoice");
+            newResponseData[newQuestionContent.length.toString()] = '';
+            newQuestionContent = newQuestionContent.concat(<MultipleChoiceResponse id={newQuestionContent.length}
+              key={newQuestionContent.length}
+              title={questions[i]['questionField']}
+              options={questions[i]['answerOptions']}
+              onUpdate={this.handleDataChange}/>)
           };
         }
         this.setState({
