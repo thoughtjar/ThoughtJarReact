@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Button, Jumbotron } from "react-bootstrap";
-import { GoogleLogin } from 'react-google-login';
+import { Jumbotron } from "react-bootstrap";
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import "./Login.css";
 import cookie from 'react-cookies';
 
@@ -21,7 +21,7 @@ export default class Login extends Component {
     }
     this.responseGoogle = this.responseGoogle.bind(this);
     this.logout = this.logout.bind(this);
-
+    //this.forceLogoutGoogle = this.forceLogoutGoogle.bind(this);
     console.log(cookie.load('access-token'));
     //cookie.save('access-token', 'token123', {path: '/'});
   }
@@ -53,8 +53,22 @@ export default class Login extends Component {
     }).catch(error => console.error('Error:', error))
     .then(response => console.log('Success'));
   }
-
+  /*
+  forceLogoutGoogle(){
+    cookie.remove('G_AUTHUSER_H');
+    if (window.gapi) {
+      const auth2 = window.gapi.auth2.getAuthInstance()
+      if (auth2 != null){
+        auth2.signOut().then(
+          auth2.disconnect().then(this.logout())
+        )
+      }
+    };
+    this.forceUpdate();
+  }
+  */
   logout(){
+    console.log(cookie.loadAll());
     var data = {
       'name': cookie.load('name'),
       'email': cookie.load('email'),
@@ -109,7 +123,9 @@ export default class Login extends Component {
             <h1>Welcome, {this.state.name}!</h1>
             <p>You are currently logged into Thought Jar with the account {this.state.email}.</p>
             <p>
-              <Button bsSize="large" onClick={this.logout}>Log Out</Button>
+              <GoogleLogout
+                buttonText="Logout"
+                onLogoutSuccess={this.logout} />
             </p>
           </Jumbotron>
         </div>

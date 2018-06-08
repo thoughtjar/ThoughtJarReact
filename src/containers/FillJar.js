@@ -35,9 +35,18 @@ export default class FillJar extends Component {
   }
 
   getJars(url){
-    var data = {
-      "access-token": cookie.load('access-token'),
-      "identifier": this.params["identifier"]
+    var data;
+    if(this.params['magictoken'] === undefined){
+      data = {
+        "access-token": cookie.load('access-token'),
+        "identifier": this.params["identifier"]
+      };
+    }else{
+      //temporary magic token = 123456789
+      data = {
+        "identifier": this.params["identifier"],
+        "magictoken": this.params["magictoken"]
+      }
     };
     console.log(data);
     fetch(url, {
