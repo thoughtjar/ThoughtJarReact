@@ -98,7 +98,7 @@ export default class Dynamik extends Component {
         'Content-Type': 'application/json'
       }
     }).catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
+    .then(response => this.props.history.push("/myjars"));
   }
 
   // handle number of responses change

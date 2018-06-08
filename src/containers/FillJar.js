@@ -23,10 +23,28 @@ export default class FillJar extends Component {
 
   submitForm(){
     console.log(this.state.responseData);
+    var response = {};
+    for(var i=0; i<Object.keys(this.state.responseData).length; i++){
+      response["Question"+(i+1).toString()] = this.state.responseData[i.toString()]
+    }
+    var data = {
+      'access-token': cookie.load('access-token'),
+      'response': response,
+      'surveyId': this.params['identifier']
+    };
+    console.log(data);
+    const url = 'http://localhost:5000/respond';
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).catch(error => console.error('Error:', error))
+    .then(response => this.props.history.push('/filljars'));
   }
 
   handleDataChange(id, value){
-    console.log(value);
     var updatedResponseData = Object.assign({}, this.state.responseData);
     updatedResponseData[id.toString()] = value;
     this.setState({

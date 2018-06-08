@@ -53,7 +53,6 @@ export default class FillJars extends Component {
   }
 
   render() {
-    console.log("rendering");
     if(cookie.load('access-token') === undefined){
       return(
         <div className="RedirectLoginPage">
