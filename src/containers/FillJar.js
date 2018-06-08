@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup } from "react-bootstrap";
 import "./FillJar.css";
 import cookie from 'react-cookies';
 import { ShortAnswerResponse, LongAnswerResponse } from "./ResponseQuestionTemplates.js";
@@ -18,6 +18,11 @@ export default class FillJar extends Component {
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
     this.handleDataChange = this.handleDataChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+  }
+
+  submitForm(){
+    console.log(this.state.responseData);
   }
 
   handleDataChange(id, value){
@@ -58,8 +63,11 @@ export default class FillJar extends Component {
             newResponseData[newQuestionContent.length.toString()] = '';
           }else if(questions[i]['questionType']==="longanswer"){
             console.log("longanswer");
-            newQuestionContent = newQuestionContent.concat(<ControlLabel key={newQuestionContent.length}>{questions[i]['questionField']}</ControlLabel>);
-            newQuestionContent = newQuestionContent.concat(<FormControl componentClass="textarea" key={newQuestionContent.length} />);
+            newQuestionContent = newQuestionContent.concat(<LongAnswerResponse id={newQuestionContent.length}
+              key={newQuestionContent.length}
+              title={questions[i]['questionField']}
+              onUpdate={this.handleDataChange}/>)
+            newResponseData[newQuestionContent.length.toString()] = '';
           }else if(questions[i]['questionType']==="multiplechoice"){
             console.log("multiplechoice");
           };
@@ -104,6 +112,7 @@ export default class FillJar extends Component {
             {this.state.questionContent}
           </FormGroup>
         </div>
+        <Button className="SubmitForm" bsSize="large" onClick={this.submitForm}>Submit</Button>
       </div>
     );
   }
