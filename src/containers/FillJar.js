@@ -108,7 +108,7 @@ export default class FillJar extends Component {
   }
 
   render() {
-    if(cookie.load('access-token') === undefined){
+    if((cookie.load('access-token') === undefined) && (this.params["magictoken"] === undefined)){
       return(
         <div className="RedirectLoginPage">
           <h1>Please login before filling jars.</h1>
