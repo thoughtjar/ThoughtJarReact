@@ -31,6 +31,7 @@ export default class MyJars extends Component {
         for(var i=0; i<surveyList.length; i++){
           updatedJarList = updatedJarList.concat(<ListGroupItem identifier={surveyList[i]["identifier"]} key={updatedJarList.length} header={surveyList[i]["title"]}>{surveyList[i]["description"]}</ListGroupItem>);
         };
+        console.log(updatedJarList);
         this.setState({
           jarList: updatedJarList
         });
@@ -59,6 +60,14 @@ export default class MyJars extends Component {
       );
     }
     if(!this.state.jarList) return <h4>Loading ...</h4>
+    if(this.state.jarList.length === 0){
+      return(
+        <div className="MyJars">
+          <h2>My Jar Dashboard</h2>
+          <p>Looks like you haven't created any jars.</p>
+        </div>
+      );
+    };
     return(
       <div className="MyJars">
         <h2>My Jar Dashboard</h2>

@@ -62,6 +62,14 @@ export default class FillJars extends Component {
       );
     }
     if(!this.state.jarList) return <h4>Loading ...</h4>
+    if(this.state.jarList.length === 0){
+      return(
+        <div className="MyJars">
+          <h2>Available Jars</h2>
+          <p>Looks like there aren't any available jars.</p>
+        </div>
+      );
+    };
     return(
       <div className="FillJars">
         <h2>Available Jars</h2>
