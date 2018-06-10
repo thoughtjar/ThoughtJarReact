@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./SurveyQuestionTemplates.css";
+import "./ResponseQuestionTemplates.css";
 import { FormControl, ControlLabel, FormGroup, Radio } from "react-bootstrap";
 
 // Short Answer Response Template Class

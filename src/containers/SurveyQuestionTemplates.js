@@ -72,6 +72,42 @@ export class LongAnswer extends Component {
   }
 }
 
+//Number Answer Template Class
+export class NumberAnswer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    this.props.onUpdate("numberanswer", this.props.id, event.target.value);
+    this.setState({
+      value: event.target.value
+    });
+  }
+
+  render() {
+    return(
+      <div className="NumberAnswer">
+        <h4>Number Answer Question</h4>
+        <div className="NumberQuestionInput">
+            <Row>
+              <Col xs={12} md={10}>
+                <FormControl type="text" placeholder="Type in number-answer question." value={this.state.value} onChange={this.handleChange} />
+              </Col>
+              <Col xs={6} md={2}>
+                <Button onClick={this.props.delete}>Delete</Button>
+              </Col>
+            </Row>
+        </div>
+      </div>
+    );
+  }
+}
+
 // Multiple Choice Template Class
 export class MultipleChoice extends Component {
   constructor(props){
