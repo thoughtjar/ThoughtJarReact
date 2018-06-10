@@ -2,6 +2,6 @@ textarea.form-control {
   height: 200px;
 }
 
-.ShortAnswerResponse, .LongAnswerResponse, .MultipleChoiceResponse {
+.ShortAnswerResponse, .LongAnswerResponse, .NumberAnswerResponse, .MultipleChoiceResponse {
   margin-bottom: 15px;
 }

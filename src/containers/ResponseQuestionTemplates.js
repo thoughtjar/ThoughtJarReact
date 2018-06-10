@@ -61,6 +61,35 @@ export class LongAnswerResponse extends Component {
   }
 }
 
+// Number Answer Response Template Class
+export class NumberAnswerResponse extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      value: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    this.props.onUpdate(this.props.id, event.target.value);
+    this.setState({value: event.target.value});
+  }
+
+  render() {
+    return(
+      <div className="NumberAnswerResponse">
+          <ControlLabel>{this.props.title}</ControlLabel>
+          <div className="NumberResponseInput">
+            <FormControl type="number"
+              value={this.state.value}
+              onChange={this.handleChange}/>
+          </div>
+      </div>
+    );
+  }
+}
+
 // Multiple Choice Response Template class
 export class MultipleChoiceResponse extends Component {
   constructor(props){
