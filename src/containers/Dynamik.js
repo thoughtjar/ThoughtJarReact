@@ -3,6 +3,7 @@ import "./Dynamik.css";
 import { ShortAnswer } from "./SurveyQuestionTemplates.js";
 import { LongAnswer } from "./SurveyQuestionTemplates.js";
 import { MultipleChoice } from "./SurveyQuestionTemplates.js";
+import { NumberAnswer } from "./SurveyQuestionTemplates.js";
 import { DropdownButton, MenuItem, ButtonToolbar, Button, ButtonGroup, Well, FormControl, Modal } from "react-bootstrap";
 import cookie from 'react-cookies';
 
@@ -22,6 +23,7 @@ export default class Dynamik extends Component {
     this.keycount = 1;
     this.createShortAnswer = this.createShortAnswer.bind(this);
     this.createLongAnswer = this.createLongAnswer.bind(this);
+    this.createNumberAnswer = this.createNumberAnswer.bind(this);
     this.createMultipleChoice = this.createMultipleChoice.bind(this);
     this.loadSurveyQuestions = this.loadSurveyQuestions.bind(this);
     this.deleteQuestion = this.deleteQuestion.bind(this);
@@ -62,6 +64,8 @@ export default class Dynamik extends Component {
           updatedPriceEstimate = this.state.priceestimate - (0.25 * this.state.numberresponses);
         }else if(this.state.questioncontent[id.toString()][0] === "multiplechoice"){
           updatedPriceEstimate = this.state.priceestimate - (0.10 * this.state.numberresponses);
+        }else if(this.state.questioncontent[id.toString()][0] === "numberanswer"){
+          updatedPriceEstimate = this.state.priceestimate - (0.05 * this.state.numberresponses);
         }
         this.setState({
           surveyquestions: updatedSurveyQuestions,
@@ -196,6 +200,23 @@ export default class Dynamik extends Component {
     });
   }
 
+  // create number answer and update corresponding variables
+  createNumberAnswer() {
+    const deleteId = this.keycount;
+    const newSurveyQuestions = this.state.surveyquestions.concat(<NumberAnswer
+      delete={() => this.deleteQuestion(deleteId)}
+      id={deleteId}
+      key={this.keycount}
+      onUpdate={this.onUpdateQuestion}/>);
+    this.onUpdateQuestion("numberanswer", deleteId, "NA");
+    this.keycount += 1;
+    this.setState({
+      surveyquestions: newSurveyQuestions,
+      priceestimate: this.state.priceestimate + (this.state.numberresponses * 0.05)
+    });
+  }
+
+
   // create multiple choice answer and update corresponding variables
   createMultipleChoice() {
     const deleteId = this.keycount;
@@ -260,7 +281,7 @@ export default class Dynamik extends Component {
               <DropdownButton bsSize="large" title="Add" id="dropdown-size-large" dropup pullRight>
                 <MenuItem eventKey="1" onClick={this.createShortAnswer}>Short Answer Question</MenuItem>
                 <MenuItem eventKey="2" onClick={this.createLongAnswer}>Long Answer Question</MenuItem>
-                <MenuItem eventKey="3">Number Answer Question</MenuItem>
+                <MenuItem eventKey="3" onClick={this.createNumberAnswer}>Number Answer Question</MenuItem>
                 <MenuItem eventKey="4" onClick={this.createMultipleChoice}>Multiple Choice Question</MenuItem>
               </DropdownButton>
             </ButtonGroup>
