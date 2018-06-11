@@ -3,7 +3,7 @@ import {  } from "react-bootstrap";
 import "./MyJar.css";
 import cookie from 'react-cookies';
 
-var queryString = require('queryString');
+var queryString = require('query-string');
 var csv_export = require('csv-export');
 
 export default class MyJar extends Component {

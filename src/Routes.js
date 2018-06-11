@@ -8,6 +8,7 @@ import Alligator from "./containers/Alligator";
 import Baboon from "./containers/Baboon";
 import Dynamik from "./containers/Dynamik";
 import MyJars from "./containers/MyJars";
+import MyJar from "./containers/MyJar";
 import FillJars from "./containers/FillJars";
 import FillJar from "./containers/FillJar";
 
@@ -19,6 +20,7 @@ export default () =>
     <Route path="/template/baboon" exact component={Baboon} />
     <Route path="/template/dynamik" exact component={Dynamik} />
     <Route path="/myjars" exact component={MyJars} />
+    <Route path="/myjar" exact component={MyJar} />
     <Route path="/filljars" exact component={FillJars} />
     <Route path="/filljar" exact component={FillJar} />
     <Route path="/aboutus" exact component={AboutUs} />
