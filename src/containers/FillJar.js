@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup } from "react-bootstrap";
 import "./FillJar.css";
 import cookie from 'react-cookies';
-import { ShortAnswerResponse, LongAnswerResponse, MultipleChoiceResponse } from "./ResponseQuestionTemplates.js";
+import { ShortAnswerResponse, LongAnswerResponse, NumberAnswerResponse, MultipleChoiceResponse } from "./ResponseQuestionTemplates.js";
 
 const queryString = require('query-string');
 
@@ -103,6 +103,12 @@ export default class FillJar extends Component {
               title={questions[i]['questionField']}
               options={questions[i]['answerOptions']}
               onUpdate={this.handleDataChange}/>)
+          }else if(questions[i]['questionType']==="numberanswer"){
+              newResponseData[newQuestionContent.length.toString()] = '';
+              newQuestionContent = newQuestionContent.concat(<NumberAnswerResponse id={newQuestionContent.length}
+                key={newQuestionContent.length}
+                title={questions[i]['questionField']}
+                onUpdate={this.handleDataChange}/>);
           };
         }
         this.setState({
