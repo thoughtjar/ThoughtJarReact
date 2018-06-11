@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "csv-export": "^1.0.2",
+    "fs": "0.0.1-security",
     "query-string": "^6.1.0",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
