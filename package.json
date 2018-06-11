@@ -7,6 +7,7 @@
     "node": "8.9.4"
   },
   "dependencies": {
+    "csv-export": "^1.0.2",
     "query-string": "^6.1.0",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
