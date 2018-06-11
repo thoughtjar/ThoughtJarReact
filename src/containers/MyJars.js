@@ -48,7 +48,9 @@ export default class MyJars extends Component {
   }
 
   componentDidMount(){
-    this.getJars("http://localhost:5000/myJars");
+    if(cookie.load('access-token') !== undefined){
+        this.getJars("http://localhost:5000/myJars");
+    }
   }
 
   render() {

@@ -5,7 +5,7 @@ import cookie from 'react-cookies';
 
 var queryString = require('query-string');
 var csv_export = require('csv-export');
-var fs = require('fs');
+var fileDownload = require('js-file-download');
 
 export default class MyJar extends Component {
   constructor(props) {
@@ -20,9 +20,12 @@ export default class MyJar extends Component {
   }
 
   downloadCSV(){
+    console.log("DOWNLOADING");
+    /*
     csv_export.export(this.state.responseContent,function(buffer){
-      fs.writeFileSync('~/Downloads/data.zip', buffer);
+      fileDownload(buffer, 'data.csv');
     });
+    */
   }
 
   getResponseContent(url){
@@ -41,7 +44,7 @@ export default class MyJar extends Component {
       return res.json().then(jsonres => {
         console.log(jsonres);
         this.setState({
-          responseContent: jsonres['responseContent']
+          responseContent: jsonres['documents']
         });
       });
     }).catch(error => console.error('Error:', error))
