@@ -29,7 +29,9 @@ export default class MyJars extends Component {
         var surveyList = json["jars"];
         var updatedJarList = [];
         for(var i=0; i<surveyList.length; i++){
-          updatedJarList = updatedJarList.concat(<ListGroupItem identifier={surveyList[i]["identifier"]} key={updatedJarList.length} header={surveyList[i]["title"]}>{surveyList[i]["description"]}</ListGroupItem>);
+          const routePath = "/myjar?identifier="+surveyList[i]["identifier"];
+          console.log(routePath);
+          updatedJarList = updatedJarList.concat(<ListGroupItem href={routePath} identifier={surveyList[i]["identifier"]} key={updatedJarList.length} header={surveyList[i]["title"]}>{surveyList[i]["description"]}</ListGroupItem>);
         };
         console.log(updatedJarList);
         this.setState({
