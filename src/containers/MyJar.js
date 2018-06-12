@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Button, DropdownButton, Row, Col } from "react-bootstrap";
 import "./MyJar.css";
 import cookie from 'react-cookies';
+import * as CSV from 'csv-string';
 
 var queryString = require('query-string');
-var csv_export = require('csv-export');
-var fileDownload = require('js-file-download');
 
 export default class MyJar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
-      responseContent: {}
+      oneVar: true,
+      questionList: [],
+      responseContent: []
     };
     this.params = queryString.parse(this.props.location.search);
     this.getResponseContent = this.getResponseContent.bind(this);
@@ -20,7 +21,14 @@ export default class MyJar extends Component {
   }
 
   downloadCSV(){
-    console.log("DOWNLOADING");
+    console.log(this.state.responseContent);
+    let csvContent = "data:text/csv;charset=utf-8,";
+    this.state.responseContent.forEach(function(rowArray){
+       let row = rowArray.join(",");
+       csvContent += row + "\r\n";
+    });
+    var encodedUri = encodeURI(csvContent);
+    window.open(encodedUri);
     /*
     csv_export.export(this.state.responseContent,function(buffer){
       fileDownload(buffer, 'data.csv');
@@ -41,10 +49,12 @@ export default class MyJar extends Component {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      return res.json().then(jsonres => {
-        console.log(jsonres);
+      return res.json().then(json => {
+        console.log(json);
         this.setState({
-          responseContent: jsonres['documents']
+          title: json["title"],
+          questionList: json["questionList"],
+          responseContent: CSV.parse(json["responseCSV"])
         });
       });
     }).catch(error => console.error('Error:', error))
@@ -58,12 +68,27 @@ export default class MyJar extends Component {
   render() {
     return(
       <div className="MyJar">
-        <div className="Header">
+        <div className="MyJarHeader">
           <h2>{this.state.title}</h2>
         </div>
-        <div className="Body">
-          <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload As CSV</Button>
-        </div>
+        <Row className="DataOptions">
+          <Col xs={6} md={4}>
+            <DropdownButton
+              title="Analysis Type"
+              key={1} />
+          </Col>
+          <Col xs={6} md={4}>
+            <DropdownButton
+              title="Analysis Type"
+              key={1} />
+          </Col>
+          <Col xsHidden md={4}>
+            <DropdownButton
+              title="Analysis Type"
+              key={1} />
+          </Col>
+        </Row>
+        <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload As a CSV</Button>
       </div>
     );
   }

@@ -1,3 +1,12 @@
-.Header {
+.MyJarHeader {
+  text-align: center;
+}
+.ExportCSV {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.DataOptions{
   text-align: center;
 }
