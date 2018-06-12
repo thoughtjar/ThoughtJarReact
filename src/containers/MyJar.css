@@ -1,5 +1,5 @@
 .MyJarHeader {
-  text-align: center;
+  text-align: left;
 }
 .ExportCSV {
   position: absolute;
@@ -7,6 +7,10 @@
   right: 20px;
 }
 
-.DataOptions{
+.AnalysisOptions{
   text-align: center;
+}
+
+.btn-group {
+    display:inline-block;
 }

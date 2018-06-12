@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, DropdownButton, Row, Col } from "react-bootstrap";
+import { Button, DropdownButton, ButtonGroup, MenuItem } from "react-bootstrap";
 import "./MyJar.css";
 import cookie from 'react-cookies';
 import * as CSV from 'csv-string';
@@ -12,12 +12,18 @@ export default class MyJar extends Component {
     this.state = {
       title: '',
       oneVar: true,
+      analysisType: "Analysis Type",
+      firstQuestionName: "Question 1",
+      secondQuestionName: "Question 2",
+      firstQuestions: [],
+      secondQuestions: [],
       questionList: [],
       responseContent: []
     };
     this.params = queryString.parse(this.props.location.search);
     this.getResponseContent = this.getResponseContent.bind(this);
     this.downloadCSV = this.downloadCSV.bind(this);
+    this.getAnalysis = this.getAnalysis.bind(this);
   }
 
   downloadCSV(){
@@ -36,6 +42,36 @@ export default class MyJar extends Component {
     */
   }
 
+  changeAnalysisType(type){
+    if(type === "Two Variable Analysis"){
+      this.setState({
+        analysisType: type,
+        oneVar: false
+      });
+    }else{
+      this.setState({
+        analysisType: type,
+        oneVar: true
+      });
+    }
+  }
+
+  firstQuestionClick(qContent){
+    this.setState({
+      firstQuestionName: qContent
+    });
+  }
+
+  secondQuestionClick(qContent){
+    this.setState({
+      secondQuestionName: qContent
+    });
+  }
+
+  getAnalysis(){
+    console.log("getting analysis");
+  }
+
   getResponseContent(url){
     var data = {
       "access-token": cookie.load('access-token'),
@@ -51,10 +87,26 @@ export default class MyJar extends Component {
     }).then(res => {
       return res.json().then(json => {
         console.log(json);
+        var firstQuestionList = [];
+        var secondQuestionList = [];
+        for(var i=0; i< json["questionList"].length; i++){
+          var qContent1 = (i+1) + ". " +  json["questionList"][i]["questionField"];
+          firstQuestionList = firstQuestionList.concat(
+            <MenuItem key={i} eventKey={"2."+(i+1)} onClick={this.firstQuestionClick.bind(this, qContent1)}>{qContent1}</MenuItem>
+          );
+        }
+        for(var j=0; j< json["questionList"].length; j++){
+          var qContent2 = (j+1) + ". " +  json["questionList"][j]["questionField"];
+          secondQuestionList = secondQuestionList.concat(
+            <MenuItem key={j} eventKey={"3."+(j+1)} onClick={this.secondQuestionClick.bind(this, qContent2)}>{qContent2}</MenuItem>
+          );
+        }
         this.setState({
           title: json["title"],
           questionList: json["questionList"],
-          responseContent: CSV.parse(json["responseCSV"])
+          responseContent: CSV.parse(json["responseCSV"]),
+          firstQuestions: firstQuestionList,
+          secondQuestions: secondQuestionList
         });
       });
     }).catch(error => console.error('Error:', error))
@@ -69,26 +121,35 @@ export default class MyJar extends Component {
     return(
       <div className="MyJar">
         <div className="MyJarHeader">
-          <h2>{this.state.title}</h2>
+          <h2>Jar Title: {this.state.title}</h2>
         </div>
-        <Row className="DataOptions">
-          <Col xs={6} md={4}>
-            <DropdownButton
-              title="Analysis Type"
-              key={1} />
-          </Col>
-          <Col xs={6} md={4}>
-            <DropdownButton
-              title="Analysis Type"
-              key={1} />
-          </Col>
-          <Col xsHidden md={4}>
-            <DropdownButton
-              title="Analysis Type"
-              key={1} />
-          </Col>
-        </Row>
-        <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload As a CSV</Button>
+        <ButtonGroup className="AnalysisOptions">
+          <DropdownButton
+            title={this.state.analysisType}
+            key={1}
+            id="analysis-type">
+            <MenuItem eventKey="1.1" onClick={this.changeAnalysisType.bind(this, "One Variable Analysis")}>One Variable Analysis</MenuItem>
+            <MenuItem eventKey="1.2" onClick={this.changeAnalysisType.bind(this, "Two Variable Analysis")}>Two Variable Analysis</MenuItem>
+          </DropdownButton>
+          <DropdownButton
+            title={this.state.firstQuestionName}
+            key={2}
+            id="first-question">
+            {this.state.firstQuestions}
+          </DropdownButton>
+          <DropdownButton
+            title={this.state.secondQuestionName}
+            disabled={this.state.oneVar}
+            key={3}
+            id="second-question">
+            {this.state.secondQuestions}
+          </DropdownButton>
+          <Button
+           onClick={this.getAnalysis}>
+           Get Analysis
+          </Button>
+        </ButtonGroup>
+        <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload Results As CSV</Button>
       </div>
     );
   }
