@@ -69,7 +69,25 @@ export default class MyJar extends Component {
   }
 
   getAnalysis(){
-    console.log("getting analysis");
+    //alert them if the values are off
+    var firstQuestionId = parseInt(this.state.firstQuestionName.split(".")[0], 10)-1;
+    var firstQuestionType = this.state.questionList[firstQuestionId]["questionType"];
+    var secondQuestionType;
+    var secondQuestionId;
+    if(this.secondQuestionName !== "Question 2"){
+      secondQuestionId = parseInt(this.state.secondQuestionName.split(".")[0], 10)-1;
+      secondQuestionType = this.state.questionList[secondQuestionId]["questionType"];
+    }
+    var data = {
+      "access-token": cookie.load('access-token'),
+      "identifier": this.params["identifier"],
+      "oneVar": this.state.oneVar,
+      "firstQuestionType": firstQuestionType,
+      "firstResponseId": firstQuestionId,
+      "secondQuestionType": secondQuestionType,
+      "secondResponseId": secondQuestionId
+    }
+    console.log(data);
   }
 
   getResponseContent(url){
