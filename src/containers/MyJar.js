@@ -83,11 +83,24 @@ export default class MyJar extends Component {
       "identifier": this.params["identifier"],
       "oneVar": this.state.oneVar,
       "firstQuestionType": firstQuestionType,
-      "firstResponseId": firstQuestionId,
+      "firstResponseId": "Question"+(firstQuestionId+1),
       "secondQuestionType": secondQuestionType,
-      "secondResponseId": secondQuestionId
+      "secondResponseId": "Question"+(secondQuestionId+1)
     }
     console.log(data);
+    const url = "http://localhost:5000/myJarAnalysis";
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      return res.json().then(json => {
+        console.log(json);
+      });
+    }).catch(error => console.error('Error:', error))
+    .then(response => console.log('Success'));
   }
 
   getResponseContent(url){
