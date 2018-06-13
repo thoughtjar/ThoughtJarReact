@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, DropdownButton, ButtonGroup, MenuItem } from "react-bootstrap";
+import { Button, DropdownButton, ButtonGroup, MenuItem, Grid, Row, Col, Image } from "react-bootstrap";
 import "./MyJar.css";
 import cookie from 'react-cookies';
 import * as CSV from 'csv-string';
@@ -18,7 +18,8 @@ export default class MyJar extends Component {
       firstQuestions: [],
       secondQuestions: [],
       questionList: [],
-      responseContent: []
+      responseContent: [],
+      graphs: []
     };
     this.params = queryString.parse(this.props.location.search);
     this.getResponseContent = this.getResponseContent.bind(this);
@@ -69,12 +70,16 @@ export default class MyJar extends Component {
   }
 
   getAnalysis(){
+    console.log(this.state.questionList);
     //alert them if the values are off
     var firstQuestionId = parseInt(this.state.firstQuestionName.split(".")[0], 10)-1;
+    console.log(firstQuestionId);
+    console.log(this.state.questionList[firstQuestionId]);
     var firstQuestionType = this.state.questionList[firstQuestionId]["questionType"];
     var secondQuestionType;
     var secondQuestionId;
-    if(this.secondQuestionName !== "Question 2"){
+    if((this.secondQuestionName !== "Question 2") && (this.secondQuestionName !== undefined)){
+      console.log(this.secondQuestionName);
       secondQuestionId = parseInt(this.state.secondQuestionName.split(".")[0], 10)-1;
       secondQuestionType = this.state.questionList[secondQuestionId]["questionType"];
     }
@@ -98,6 +103,11 @@ export default class MyJar extends Component {
     }).then(res => {
       return res.json().then(json => {
         console.log(json);
+        var newGraphs = [];
+        newGraphs = newGraphs.concat(<Image rounded key={0} src={"data:image/png;base64,"+json["src"]} />)
+        this.setState({
+          graphs: newGraphs
+        });
       });
     }).catch(error => console.error('Error:', error))
     .then(response => console.log('Success'));
@@ -180,6 +190,13 @@ export default class MyJar extends Component {
            Get Analysis
           </Button>
         </ButtonGroup>
+        <Grid>
+          <Row>
+            <Col xs={6} md={4}>
+              {this.state.graphs[0]}
+            </Col>
+          </Row>
+        </Grid>
         <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload Results As CSV</Button>
       </div>
     );
