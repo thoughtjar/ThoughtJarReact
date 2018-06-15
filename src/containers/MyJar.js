@@ -135,16 +135,21 @@ export default class MyJar extends Component {
           firstQuestionList = firstQuestionList.concat(
             <MenuItem key={i} eventKey={"2."+(i+1)} onClick={this.firstQuestionClick.bind(this, qContent1)}>{qContent1}</MenuItem>
           );
-        }
+        };
         for(var j=0; j< json["questionList"].length; j++){
           var qContent2 = (j+1) + ". " +  json["questionList"][j]["questionField"];
           secondQuestionList = secondQuestionList.concat(
             <MenuItem key={j} eventKey={"3."+(j+1)} onClick={this.secondQuestionClick.bind(this, qContent2)}>{qContent2}</MenuItem>
           );
-        }
+        };
+        console.log(parseInt(json["responsesSoFar"], 10) < parseInt(json["reqResponses"], 10));
+        var campaignComplete = parseInt(json["responsesSoFar"], 10) >= parseInt(json["reqResponses"], 10);
         this.setState({
           title: json["title"],
           questionList: json["questionList"],
+          isCampaignComplete: campaignComplete,
+          responsesSoFar: parseInt(json["responsesSoFar"], 10),
+          reqResponses: parseInt(json["reqResponses"], 10),
           responseContent: CSV.parse(json["responseCSV"]),
           firstQuestions: firstQuestionList,
           secondQuestions: secondQuestionList
@@ -159,46 +164,66 @@ export default class MyJar extends Component {
   }
 
   render() {
-    return(
-      <div className="MyJar">
-        <div className="MyJarHeader">
-          <h2>Jar Title: {this.state.title}</h2>
+    if(this.state.isCampaignComplete === undefined){
+      return(
+        <div className="MyJar">
+          Loading
         </div>
-        <ButtonGroup className="AnalysisOptions">
-          <DropdownButton
-            title={this.state.analysisType}
-            key={1}
-            id="analysis-type">
-            <MenuItem eventKey="1.1" onClick={this.changeAnalysisType.bind(this, "One Variable Analysis")}>One Variable Analysis</MenuItem>
-            <MenuItem eventKey="1.2" onClick={this.changeAnalysisType.bind(this, "Two Variable Analysis")}>Two Variable Analysis</MenuItem>
-          </DropdownButton>
-          <DropdownButton
-            title={this.state.firstQuestionName}
-            key={2}
-            id="first-question">
-            {this.state.firstQuestions}
-          </DropdownButton>
-          <DropdownButton
-            title={this.state.secondQuestionName}
-            disabled={this.state.oneVar}
-            key={3}
-            id="second-question">
-            {this.state.secondQuestions}
-          </DropdownButton>
-          <Button
-           onClick={this.getAnalysis}>
-           Get Analysis
-          </Button>
-        </ButtonGroup>
-        <Grid>
-          <Row>
-            <Col xs={6} md={4}>
-              {this.state.graphs[0]}
-            </Col>
-          </Row>
-        </Grid>
-        <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload Results As CSV</Button>
-      </div>
-    );
+      );
+    }else if(this.state.isCampaignComplete === false){
+      return(
+        <div className="MyJar">
+          <div className="MyJarHeader">
+            <h2>Jar Title: {this.state.title}</h2>
+          </div>
+          <h4>Campaign is not complete</h4>
+          <h5>{"Reponses Collected: " + this.state.responsesSoFar}</h5>
+          <h5>{"Reponses Requested: " + this.state.reqResponses}</h5>
+          <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload Results As CSV</Button>
+        </div>
+      );
+    }else{
+      return(
+        <div className="MyJar">
+          <div className="MyJarHeader">
+            <h2>Jar Title: {this.state.title}</h2>
+          </div>
+          <ButtonGroup className="AnalysisOptions">
+            <DropdownButton
+              title={this.state.analysisType}
+              key={1}
+              id="analysis-type">
+              <MenuItem eventKey="1.1" onClick={this.changeAnalysisType.bind(this, "One Variable Analysis")}>One Variable Analysis</MenuItem>
+              <MenuItem eventKey="1.2" onClick={this.changeAnalysisType.bind(this, "Two Variable Analysis")}>Two Variable Analysis</MenuItem>
+            </DropdownButton>
+            <DropdownButton
+              title={this.state.firstQuestionName}
+              key={2}
+              id="first-question">
+              {this.state.firstQuestions}
+            </DropdownButton>
+            <DropdownButton
+              title={this.state.secondQuestionName}
+              disabled={this.state.oneVar}
+              key={3}
+              id="second-question">
+              {this.state.secondQuestions}
+            </DropdownButton>
+            <Button
+             onClick={this.getAnalysis}>
+             Get Analysis
+            </Button>
+          </ButtonGroup>
+          <Grid>
+            <Row>
+              <Col xs={6} md={4}>
+                {this.state.graphs[0]}
+              </Col>
+            </Row>
+          </Grid>
+          <Button className="ExportCSV" bsSize="large" onClick={this.downloadCSV}>Dowload Results As CSV</Button>
+        </div>
+      );
+    }
   }
 }
