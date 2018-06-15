@@ -91,6 +91,7 @@ export default class Dynamik extends Component {
     const data = {
       'title': this.state.jarTitle,
       'description': this.state.jarDescription,
+      'reqResponses': this.state.numberresponses,
       'access-token': cookie.load('access-token'),
       'questionsList': this.state.questioncontent
     }
