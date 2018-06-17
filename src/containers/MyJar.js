@@ -105,7 +105,7 @@ export default class MyJar extends Component {
         console.log(json);
         var newGraphs = [];
         for(var i=0; i<json["src"].length; i++){
-          newGraphs = newGraphs.concat(<Image rounded key={i} src={"data:image/png;base64,"+json["src"][i]} />);
+          newGraphs = newGraphs.concat(<Image className="GraphImage" rounded key={i} src={"data:image/png;base64,"+json["src"][i]} />);
         }
         this.setState({
           graphs: newGraphs
@@ -218,8 +218,16 @@ export default class MyJar extends Component {
           </ButtonGroup>
           <Grid>
             <Row>
-              <Col xs={6} md={4}>
+              <Col xs={6} md={6}>
                 {this.state.graphs[0]}
+              </Col>
+              <Col xs={6} md={6}>
+                {this.state.graphs[1]}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={6} md={6}>
+                {this.state.graphs[2]}
               </Col>
             </Row>
           </Grid>
