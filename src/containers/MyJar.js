@@ -104,7 +104,9 @@ export default class MyJar extends Component {
       return res.json().then(json => {
         console.log(json);
         var newGraphs = [];
-        newGraphs = newGraphs.concat(<Image rounded key={0} src={"data:image/png;base64,"+json["src"]} />)
+        for(var i=0; i<json["src"].length; i++){
+          newGraphs = newGraphs.concat(<Image rounded key={i} src={"data:image/png;base64,"+json["src"][i]} />);
+        }
         this.setState({
           graphs: newGraphs
         });
