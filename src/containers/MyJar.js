@@ -64,6 +64,7 @@ export default class MyJar extends Component {
   }
 
   secondQuestionClick(qContent){
+    console.log(qContent);
     this.setState({
       secondQuestionName: qContent
     });
@@ -78,8 +79,8 @@ export default class MyJar extends Component {
     var firstQuestionType = this.state.questionList[firstQuestionId]["questionType"];
     var secondQuestionType;
     var secondQuestionId;
-    if((this.secondQuestionName !== "Question 2") && (this.secondQuestionName !== undefined)){
-      console.log(this.secondQuestionName);
+    if(this.state.secondQuestionName !== "Question 2"){
+      console.log(this.state.secondQuestionName);
       secondQuestionId = parseInt(this.state.secondQuestionName.split(".")[0], 10)-1;
       secondQuestionType = this.state.questionList[secondQuestionId]["questionType"];
     }
