@@ -14,6 +14,7 @@ export default class FillJar extends Component {
       questionContent: [],
       responseData: {}
     };
+    this.url = "http://localhost:5000";
     this.params = queryString.parse(this.props.location.search);
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
@@ -33,7 +34,7 @@ export default class FillJar extends Component {
       'surveyId': this.params['identifier']
     };
     console.log(data);
-    const url = 'http://localhost:5000/respond';
+    const url = this.url + '/respond';
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -128,7 +129,7 @@ export default class FillJar extends Component {
 
   componentDidMount(){
     //this.getJars("http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/getJars");
-    this.getJars("http://localhost:5000/fillJar");
+    this.getJars(this.url + "/fillJar");
   }
 
   render() {

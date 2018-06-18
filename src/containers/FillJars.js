@@ -8,6 +8,7 @@ export default class FillJars extends Component {
     super(props);
     this.state = {
     };
+    this.url = "http://localhost:5000";
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
   }
@@ -50,7 +51,7 @@ export default class FillJars extends Component {
   componentDidMount(){
     //this.getJars("http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/getJars");
     if(cookie.load('access-token') !== undefined){
-      this.getJars("http://localhost:5000/fillJars");
+      this.getJars(this.url + "/fillJars");
     }
   }
 

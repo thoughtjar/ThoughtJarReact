@@ -21,6 +21,7 @@ export default class MyJar extends Component {
       responseContent: [],
       graphs: []
     };
+    this.url = "http://localhost:5000";
     this.params = queryString.parse(this.props.location.search);
     this.getResponseContent = this.getResponseContent.bind(this);
     this.downloadCSV = this.downloadCSV.bind(this);
@@ -94,7 +95,7 @@ export default class MyJar extends Component {
       "secondResponseId": "Question"+(secondQuestionId+1)
     }
     console.log(data);
-    const url = "http://localhost:5000/myJarAnalysis";
+    const url = this.url + "/myJarAnalysis";
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -163,7 +164,7 @@ export default class MyJar extends Component {
   }
 
   componentDidMount(){
-    this.getResponseContent("http://localhost:5000/myJar");
+    this.getResponseContent(this.url + "/myJar");
   }
 
   render() {

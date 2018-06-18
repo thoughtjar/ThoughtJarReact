@@ -19,6 +19,7 @@ export default class Login extends Component {
         email: cookie.load('email')
       }
     }
+    this.url = "http://localhost:5000";
     this.responseGoogle = this.responseGoogle.bind(this);
     this.logout = this.logout.bind(this);
     //this.forceLogoutGoogle = this.forceLogoutGoogle.bind(this);
@@ -31,7 +32,7 @@ export default class Login extends Component {
     const id_token = response.tokenId;
     var data = {"id_token": id_token};
     //const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/authenticate";
-    const url = "http://localhost:5000/authenticate";
+    const url = this.url + "/authenticate";
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -75,7 +76,7 @@ export default class Login extends Component {
       'access-token': cookie.load('access-token'),
     };
     //const url = "http://ec2-54-165-205-67.compute-1.amazonaws.com:5000/logout";
-    const url = "http://localhost:5000/authenticate";
+    const url = this.url + "/authenticate";
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(data),

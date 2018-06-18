@@ -8,6 +8,7 @@ export default class MyJars extends Component {
     super(props);
     this.state = {
     };
+    this.url = "http://localhost:5000";
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
   }
@@ -49,7 +50,7 @@ export default class MyJars extends Component {
 
   componentDidMount(){
     if(cookie.load('access-token') !== undefined){
-        this.getJars("http://localhost:5000/myJars");
+        this.getJars(this.url + "/myJars");
     }
   }
 

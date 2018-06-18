@@ -21,6 +21,7 @@ export default class Dynamik extends Component {
       jarDescription: ""
     };
     this.keycount = 1;
+    this.url = "http://localhost:5000";
     this.createShortAnswer = this.createShortAnswer.bind(this);
     this.createLongAnswer = this.createLongAnswer.bind(this);
     this.createNumberAnswer = this.createNumberAnswer.bind(this);
@@ -95,7 +96,7 @@ export default class Dynamik extends Component {
       'access-token': cookie.load('access-token'),
       'questionsList': this.state.questioncontent
     }
-    const url ="http://localhost:5000/createSurvey";
+    const url = this.url+"/createSurvey";
     fetch(url, {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(data), // data can be `string` or {object}!
