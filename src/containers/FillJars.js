@@ -75,8 +75,10 @@ export default class FillJars extends Component {
     };
     return(
       <div className="FillJars">
-        <h2>Available Jars</h2>
-        <ListGroup>
+        <div className="FillJarsHeader">
+          <h2>Available Jars</h2>
+        </div>
+        <ListGroup className="FillJarsList">
           {this.state.jarList}
         </ListGroup>
       </div>

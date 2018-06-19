@@ -75,8 +75,10 @@ export default class MyJars extends Component {
     };
     return(
       <div className="MyJars">
-        <h2>My Jar Dashboard</h2>
-        <ListGroup>
+        <div className="MyJarsHeader">
+          <h2>My Jar Dashboard</h2>
+        </div>
+        <ListGroup className="MyJarsList">
           {this.state.jarList}
         </ListGroup>
       </div>
