@@ -20,7 +20,7 @@ export default class MyJar extends Component {
       responseContent: [],
       graphs: []
     };
-    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    this.url = "https://api.thoughtjar.net";
     //this.url = "http://localhost:5000";
     this.params = qs.parse(this.props.location.search.slice(1));
     this.getResponseContent = this.getResponseContent.bind(this);

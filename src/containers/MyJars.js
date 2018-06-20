@@ -8,7 +8,7 @@ export default class MyJars extends Component {
     super(props);
     this.state = {
     };
-    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    this.url = "https://api.thoughtjar.net";
     //this.url = "http://localhost:5000";
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
@@ -70,7 +70,7 @@ export default class MyJars extends Component {
       return(
         <div className="MyJars">
           <h2>My Jar Dashboard</h2>
-          <p>Looks like you haven't created any jars.</p>
+          <p>Looks like you haven&#39;t created any jars.</p>
         </div>
       );
     };
