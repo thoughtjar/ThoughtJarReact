@@ -21,7 +21,8 @@ export default class Dynamik extends Component {
       jarDescription: ""
     };
     this.keycount = 1;
-    this.url = "http://localhost:5000";
+    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    //this.url = "http://localhost:5000";
     this.createShortAnswer = this.createShortAnswer.bind(this);
     this.createLongAnswer = this.createLongAnswer.bind(this);
     this.createNumberAnswer = this.createNumberAnswer.bind(this);

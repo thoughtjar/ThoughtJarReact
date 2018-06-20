@@ -3,8 +3,7 @@ import { Button, DropdownButton, ButtonGroup, MenuItem, Grid, Row, Col, Image } 
 import "./MyJar.css";
 import cookie from 'react-cookies';
 import * as CSV from 'csv-string';
-
-var queryString = require('query-string');
+import qs from 'qs';
 
 export default class MyJar extends Component {
   constructor(props) {
@@ -21,8 +20,9 @@ export default class MyJar extends Component {
       responseContent: [],
       graphs: []
     };
-    this.url = "http://localhost:5000";
-    this.params = queryString.parse(this.props.location.search);
+    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    //this.url = "http://localhost:5000";
+    this.params = qs.parse(this.props.location.search.slice(1));
     this.getResponseContent = this.getResponseContent.bind(this);
     this.downloadCSV = this.downloadCSV.bind(this);
     this.getAnalysis = this.getAnalysis.bind(this);

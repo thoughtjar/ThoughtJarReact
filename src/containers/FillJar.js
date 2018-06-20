@@ -3,8 +3,7 @@ import { Button, FormGroup } from "react-bootstrap";
 import "./FillJar.css";
 import cookie from 'react-cookies';
 import { ShortAnswerResponse, LongAnswerResponse, NumberAnswerResponse, MultipleChoiceResponse } from "./ResponseQuestionTemplates.js";
-
-const queryString = require('query-string');
+import qs from 'qs';
 
 export default class FillJar extends Component {
   constructor(props){
@@ -14,8 +13,9 @@ export default class FillJar extends Component {
       questionContent: [],
       responseData: {}
     };
-    this.url = "http://localhost:5000";
-    this.params = queryString.parse(this.props.location.search);
+    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    //this.url = "http://localhost:5000";
+    this.params = qs.parse(this.props.location.search.slice(1));
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
     this.handleDataChange = this.handleDataChange.bind(this);

@@ -19,7 +19,8 @@ export default class Login extends Component {
         email: cookie.load('email')
       }
     }
-    this.url = "http://localhost:5000";
+    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    //this.url = "http://localhost:5000";
     this.responseGoogle = this.responseGoogle.bind(this);
     this.logout = this.logout.bind(this);
     //this.forceLogoutGoogle = this.forceLogoutGoogle.bind(this);

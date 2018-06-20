@@ -8,7 +8,8 @@ export default class FillJars extends Component {
     super(props);
     this.state = {
     };
-    this.url = "http://localhost:5000";
+    this.url = "https://newtjelb-2056197338.us-east-1.elb.amazonaws.com:443";
+    //this.url = "http://localhost:5000";
     this.getJars = this.getJars.bind(this);
     this.routeLoginPage = this.routeLoginPage.bind(this);
   }
