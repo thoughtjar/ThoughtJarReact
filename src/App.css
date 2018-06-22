@@ -5,3 +5,11 @@
 .App .navbar-brand {
   font-weight: bold;
 }
+
+.NavigationBar {
+  background-color: #3158B7;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: white;
+}
