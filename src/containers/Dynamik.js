@@ -18,7 +18,8 @@ export default class Dynamik extends Component {
       priceestimate: 0.0,
       showDetails: false,
       jarTitle: "",
-      jarDescription: ""
+      jarDescription: "",
+      jarReward: null
     };
     this.keycount = 1;
     this.url = "https://api.thoughtjar.net";
@@ -34,6 +35,7 @@ export default class Dynamik extends Component {
     this.handleChangeNumberResponses = this.handleChangeNumberResponses.bind(this);
     this.handleChangeJarTitle = this.handleChangeJarTitle.bind(this);
     this.handleChangeJarDescription = this.handleChangeJarDescription.bind(this);
+    this.handleChangeJarReward = this.handleChangeJarReward.bind(this);
     this.handleCloseDetails = this.handleCloseDetails.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.uploadJar = this.uploadJar.bind(this);
@@ -95,7 +97,8 @@ export default class Dynamik extends Component {
       'description': this.state.jarDescription,
       'reqResponses': this.state.numberresponses,
       'access-token': cookie.load('access-token'),
-      'questionsList': this.state.questioncontent
+      'questionsList': this.state.questioncontent,
+      'reward': this.state.jarReward
     }
     const url = this.url+"/createSurvey";
     fetch(url, {
@@ -142,6 +145,12 @@ export default class Dynamik extends Component {
   handleChangeJarDescription(event){
     this.setState({
       jarDescription: event.target.value
+    });
+  }
+
+  handleChangeJarReward(event){
+    this.setState({
+      jarReward: event.target.value
     });
   }
 
@@ -306,6 +315,12 @@ export default class Dynamik extends Component {
                 className="JarDescription"
                 value={this.state.jarDescription}
                 onChange={this.handleChangeJarDescription}/>
+              <FormControl
+               type="number"
+               placeholder="Monetary Reward for Each Response"
+               className="JarReward"
+               value={this.state.jarReward}
+               onChange={this.handleChangeJarReward}/>
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.uploadJar}>Create</Button>

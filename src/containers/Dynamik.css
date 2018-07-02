@@ -27,7 +27,11 @@
 }
 
 .JarTitle {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.JarDescription {
+  margin-bottom: 10px;
 }
 
 textarea.form-control {
